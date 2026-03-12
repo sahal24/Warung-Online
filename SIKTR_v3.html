@@ -703,16 +703,16 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
           <button class="icon-btn" onclick="nav('home')" style="font-size:18px">‹</button>
           <div class="th-name">Manajemen Stok</div>
         </div>
-        <button class="icon-btn" onclick="toast('➕ Tambah produk baru...')">➕</button>
+        <button class="icon-btn" onclick="openTambahProduk()" style="font-size:18px;color:var(--mint)">➕</button>
       </div>
       <!-- Header Stats -->
       <div class="stok-header-card">
         <div style="font-size:11px;opacity:.8;font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px">Total Produk Aktif</div>
-        <div style="font-size:30px;font-weight:900;color:#fff">24 Produk</div>
+        <div style="font-size:30px;font-weight:900;color:#fff" id="stok-total-label">8 Produk</div>
         <div style="display:flex;gap:14px;margin-top:12px">
-          <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:#fff">21</div><div style="font-size:10px;opacity:.7;font-weight:600">Normal</div></div>
-          <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:#FFD980">3</div><div style="font-size:10px;opacity:.7;font-weight:600">Menipis</div></div>
-          <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:#FF9999">0</div><div style="font-size:10px;opacity:.7;font-weight:600">Habis</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:#fff" id="stok-count-normal">5</div><div style="font-size:10px;opacity:.7;font-weight:600">Normal</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:#FFD980" id="stok-count-menipis">3</div><div style="font-size:10px;opacity:.7;font-weight:600">Menipis</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:#FF9999" id="stok-count-habis">0</div><div style="font-size:10px;opacity:.7;font-weight:600">Habis</div></div>
         </div>
       </div>
       <div style="padding:0 16px">
@@ -726,6 +726,113 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
         <div class="card-white" style="padding:0 16px" id="stokList"></div>
       </div>
       <div class="gap"></div>
+    </div>
+
+    <!-- ══ MODAL EDIT STOK ══ -->
+    <div class="modal-overlay" id="modal-editstok">
+      <div class="modal-sheet">
+        <div class="mhandle"></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+          <div id="editStokEmoji" style="font-size:28px;width:48px;height:48px;background:var(--mint-light);border-radius:14px;display:flex;align-items:center;justify-content:center"></div>
+          <div>
+            <div class="m-title" style="margin-bottom:0" id="editStokNama">Nama Produk</div>
+            <div style="font-size:11px;color:var(--text2)" id="editStokKat">Kategori</div>
+          </div>
+        </div>
+        <!-- Stok Saat Ini -->
+        <div style="background:var(--bg);border-radius:16px;padding:16px;margin-bottom:16px;text-align:center">
+          <div style="font-size:11px;color:var(--text2);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px">Stok Saat Ini</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:16px">
+            <button onclick="adjustStok(-1)" style="width:40px;height:40px;border-radius:12px;background:#fff;border:1.5px solid var(--border);font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--pink)">−</button>
+            <div style="font-size:36px;font-weight:900;color:var(--text);min-width:60px;text-align:center" id="editStokQty">0</div>
+            <button onclick="adjustStok(1)" style="width:40px;height:40px;border-radius:12px;background:var(--mint);border:none;font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff">+</button>
+          </div>
+          <div style="font-size:12px;color:var(--text2);margin-top:6px" id="editStokUnit">unit</div>
+        </div>
+        <!-- Tambah Massal -->
+        <div class="inp-grp">
+          <label class="inp-label">Tambah Stok Massal</label>
+          <div style="display:flex;gap:8px">
+            <div class="inp-prefix" style="flex:1">
+              <div class="inp-pre-label">+</div>
+              <input class="inp-pre-input" type="number" placeholder="0" id="stokTambahMassal" inputmode="numeric">
+            </div>
+            <button onclick="tambahMassal()" style="background:var(--mint);color:#fff;border:none;border-radius:13px;padding:12px 16px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap">Tambah</button>
+          </div>
+        </div>
+        <!-- Stok Minimum -->
+        <div class="inp-grp">
+          <label class="inp-label">Stok Minimum (Alert)</label>
+          <input class="inp" type="number" placeholder="Contoh: 10" id="editStokMin" inputmode="numeric">
+        </div>
+        <!-- Harga -->
+        <div class="inp-grp">
+          <label class="inp-label">Harga Jual</label>
+          <div class="inp-prefix">
+            <div class="inp-pre-label">Rp</div>
+            <input class="inp-pre-input" type="number" id="editStokHarga" inputmode="numeric">
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:4px">
+          <button onclick="simpanEditStok()" style="flex:1;background:var(--mint);color:#fff;border:none;border-radius:14px;padding:14px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(0,200,150,.3)">💾 Simpan</button>
+          <button onclick="hapusProduk()" style="background:var(--pink-light);color:var(--pink);border:1.5px solid #FFD0DA;border-radius:14px;padding:14px 16px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer">🗑</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ MODAL TAMBAH PRODUK BARU ══ -->
+    <div class="modal-overlay" id="modal-tambahproduk">
+      <div class="modal-sheet">
+        <div class="mhandle"></div>
+        <div class="m-title">➕ Tambah Produk Baru</div>
+        <div class="inp-grp">
+          <label class="inp-label">Emoji Produk</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap" id="emojiPicker">
+            <button class="chip on" onclick="pickEmoji(this,'🥤')">🥤</button>
+            <button class="chip" onclick="pickEmoji(this,'🍜')">🍜</button>
+            <button class="chip" onclick="pickEmoji(this,'🍞')">🍞</button>
+            <button class="chip" onclick="pickEmoji(this,'🥚')">🥚</button>
+            <button class="chip" onclick="pickEmoji(this,'🫙')">🫙</button>
+            <button class="chip" onclick="pickEmoji(this,'🧃')">🧃</button>
+            <button class="chip" onclick="pickEmoji(this,'🌾')">🌾</button>
+            <button class="chip" onclick="pickEmoji(this,'🛢')">🛢</button>
+            <button class="chip" onclick="pickEmoji(this,'🍬')">🍬</button>
+            <button class="chip" onclick="pickEmoji(this,'🧴')">🧴</button>
+            <button class="chip" onclick="pickEmoji(this,'☕')">☕</button>
+            <button class="chip" onclick="pickEmoji(this,'🍗')">🍗</button>
+          </div>
+        </div>
+        <div class="inp-grp">
+          <label class="inp-label">Nama Produk</label>
+          <input class="inp" type="text" placeholder="Contoh: Es Kopi Susu" id="newNama">
+        </div>
+        <div class="inp-grp">
+          <label class="inp-label">Kategori</label>
+          <div class="cat-chips" id="newKatChips">
+            <button class="chip on" onclick="pickChip(this)">minuman</button>
+            <button class="chip" onclick="pickChip(this)">makanan</button>
+            <button class="chip" onclick="pickChip(this)">sembako</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <div class="inp-grp" style="flex:1">
+            <label class="inp-label">Stok Awal</label>
+            <input class="inp" type="number" placeholder="0" id="newQty" inputmode="numeric">
+          </div>
+          <div class="inp-grp" style="flex:1">
+            <label class="inp-label">Satuan</label>
+            <input class="inp" type="text" placeholder="pcs / botol / kg" id="newUnit">
+          </div>
+        </div>
+        <div class="inp-grp">
+          <label class="inp-label">Harga Jual</label>
+          <div class="inp-prefix">
+            <div class="inp-pre-label">Rp</div>
+            <input class="inp-pre-input" type="number" placeholder="0" id="newHarga" inputmode="numeric">
+          </div>
+        </div>
+        <button onclick="simpanProdukBaru()" style="width:100%;background:var(--mint);color:#fff;border:none;border-radius:14px;padding:15px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(0,200,150,.3)">✅ Tambah Produk</button>
+      </div>
     </div>
 
     <!-- ══ AI ANALISIS ══ -->
@@ -948,14 +1055,14 @@ const produkData = [
   {emoji:'🧃',nama:'Aqua 600ml',harga:4000,stok:48},
 ];
 const stokData = [
-  {icon:'🥤',nama:'Es Teh Manis',cat:'minuman',qty:50,max:100,unit:'botol',level:'normal'},
-  {icon:'🧃',nama:'Aqua 600ml',cat:'minuman',qty:48,max:100,unit:'pcs',level:'normal'},
-  {icon:'🍜',nama:'Mie Goreng',cat:'makanan',qty:30,max:80,unit:'bungkus',level:'normal'},
-  {icon:'🍞',nama:'Roti Tawar',cat:'makanan',qty:8,max:50,unit:'bungkus',level:'menipis'},
-  {icon:'🥚',nama:'Telur',cat:'sembako',qty:100,max:200,unit:'butir',level:'normal'},
-  {icon:'🫙',nama:'Kecap Manis',cat:'sembako',qty:5,max:30,unit:'botol',level:'menipis'},
-  {icon:'🌾',nama:'Beras 5kg',cat:'sembako',qty:10,max:50,unit:'kg',level:'normal'},
-  {icon:'🛢',nama:'Minyak Goreng',cat:'sembako',qty:3,max:20,unit:'liter',level:'menipis'},
+  {icon:'🥤',nama:'Es Teh Manis',cat:'minuman',qty:50,max:100,unit:'botol',min:15,harga:3000},
+  {icon:'🧃',nama:'Aqua 600ml',cat:'minuman',qty:48,max:100,unit:'pcs',min:20,harga:4000},
+  {icon:'🍜',nama:'Mie Goreng',cat:'makanan',qty:30,max:80,unit:'bungkus',min:10,harga:5000},
+  {icon:'🍞',nama:'Roti Tawar',cat:'makanan',qty:8,max:50,unit:'bungkus',min:10,harga:8000},
+  {icon:'🥚',nama:'Telur',cat:'sembako',qty:100,max:200,unit:'butir',min:20,harga:2500},
+  {icon:'🫙',nama:'Kecap Manis',cat:'sembako',qty:5,max:30,unit:'botol',min:8,harga:7000},
+  {icon:'🌾',nama:'Beras 5kg',cat:'sembako',qty:10,max:50,unit:'kg',min:5,harga:65000},
+  {icon:'🛢',nama:'Minyak Goreng',cat:'sembako',qty:3,max:20,unit:'liter',min:5,harga:18000},
 ];
 const notifData = [
   {icon:'💳',iconBg:'var(--mint-light)',title:'Transaksi QRIS Masuk',desc:'Budi Santoso membayar Rp 45.000 via GoPay',time:'2 menit lalu',unread:true},
@@ -1167,28 +1274,77 @@ function renderQrisTx(){
       <div class="tx-amt" style="color:var(--mint)">${t.amt}</div>
     </div>`).join('');
 }
+// ── STOK LEVEL HELPER ──
+function getStokLevel(s){
+  if(s.qty<=0)return 'habis';
+  const min=s.min||10;
+  if(s.qty<=min)return 'menipis';
+  return 'normal';
+}
+function updateStokHeader(){
+  const normal=stokData.filter(s=>getStokLevel(s)==='normal').length;
+  const menipis=stokData.filter(s=>getStokLevel(s)==='menipis').length;
+  const habis=stokData.filter(s=>getStokLevel(s)==='habis').length;
+  const el1=document.getElementById('stok-total-label');
+  const el2=document.getElementById('stok-count-normal');
+  const el3=document.getElementById('stok-count-menipis');
+  const el4=document.getElementById('stok-count-habis');
+  if(el1)el1.textContent=stokData.length+' Produk';
+  if(el2)el2.textContent=normal;
+  if(el3)el3.textContent=menipis;
+  if(el4)el4.textContent=habis;
+  // update dashboard badge
+  const dbadge=document.querySelector('.stat-card .stat-val[style*="orange"]');
+  if(dbadge)dbadge.textContent=menipis+habis;
+}
 function renderStok(data){
   const c=document.getElementById('stokList');
   if(!c)return;
-  c.innerHTML=data.map(s=>{
-    const pct=Math.round((s.qty/s.max)*100);
-    const barColor=s.level==='habis'?'var(--pink)':s.level==='menipis'?'var(--orange)':'var(--mint)';
-    const levelLabel=s.level==='habis'?'Habis':s.level==='menipis'?'Menipis':'Stok OK';
-    const levelBg=s.level==='habis'?'var(--pink-light)':s.level==='menipis'?'var(--orange-light)':'var(--mint-light)';
-    const levelColor=s.level==='habis'?'var(--pink)':s.level==='menipis'?'var(--orange)':'var(--mint-dark)';
-    return `<div class="stok-item" onclick="toast('✏️ Edit stok ${s.nama}...')">
-      <div class="stok-icon" style="background:${s.level==='menipis'?'var(--orange-light)':s.level==='habis'?'var(--pink-light)':'var(--mint-light)'}">${s.icon}</div>
+  if(data.length===0){c.innerHTML='<div style="text-align:center;padding:24px;color:var(--text3);font-size:13px">Tidak ada produk ditemukan</div>';return;}
+  c.innerHTML=data.map((s,i)=>{
+    const level=getStokLevel(s);
+    const pct=s.max>0?Math.min(100,Math.round((s.qty/s.max)*100)):0;
+    const barColor=level==='habis'?'var(--pink)':level==='menipis'?'var(--orange)':'var(--mint)';
+    const levelLabel=level==='habis'?'Habis':level==='menipis'?'Menipis ⚠️':'Stok OK';
+    const levelBg=level==='habis'?'var(--pink-light)':level==='menipis'?'var(--orange-light)':'var(--mint-light)';
+    const levelColor=level==='habis'?'var(--pink)':level==='menipis'?'var(--orange)':'var(--mint-dark)';
+    const idx=stokData.indexOf(s);
+    return `<div class="stok-item" onclick="openEditStok(${idx})">
+      <div class="stok-icon" style="background:${level==='menipis'?'var(--orange-light)':level==='habis'?'var(--pink-light)':'var(--mint-light)'}">${s.icon}</div>
       <div class="stok-info">
         <div class="stok-name">${s.nama}</div>
+        <div style="font-size:10px;color:var(--text2);margin-bottom:4px">Rp ${(s.harga||0).toLocaleString('id')} / ${s.unit}</div>
         <div class="stok-bar-wrap"><div class="stok-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
-        <span class="stok-level-badge" style="background:${levelBg};color:${levelColor}">${levelLabel} · ${pct}%</span>
+        <span class="stok-level-badge" style="background:${levelBg};color:${levelColor}">${levelLabel} · ${s.qty} ${s.unit}</span>
       </div>
       <div class="stok-qty">
-        <div class="stok-num">${s.qty}</div>
+        <div class="stok-num" style="color:${levelColor}">${s.qty}</div>
         <div class="stok-unit">${s.unit}</div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px">
+          <button onclick="event.stopPropagation();quickAdjust(${idx},1)" style="width:28px;height:28px;border-radius:8px;background:var(--mint);border:none;color:#fff;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center">+</button>
+          <button onclick="event.stopPropagation();quickAdjust(${idx},-1)" style="width:28px;height:28px;border-radius:8px;background:var(--pink-light);border:1px solid #FFD0DA;color:var(--pink);font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center">−</button>
+        </div>
       </div>
     </div>`;
   }).join('');
+}
+function quickAdjust(idx,delta){
+  const s=stokData[idx];
+  if(!s)return;
+  s.qty=Math.max(0,s.qty+delta);
+  const level=getStokLevel(s);
+  if(level==='habis')toast('🚨 '+s.nama+' stok HABIS!');
+  else if(level==='menipis')toast('⚠️ '+s.nama+' stok menipis: '+s.qty+' '+s.unit);
+  else toast((delta>0?'➕':'➖')+' '+s.nama+': '+s.qty+' '+s.unit);
+  updateStokHeader();
+  const q=document.getElementById('stokSearch').value.toLowerCase();
+  const cat=document.querySelector('#page-stok .ftab.active')?.textContent.trim().toLowerCase()||'semua';
+  let filtered=stokData;
+  if(q)filtered=filtered.filter(s=>s.nama.toLowerCase().includes(q));
+  if(cat!=='semua')filtered=filtered.filter(s=>s.cat===cat);
+  renderStok(filtered);
+  // sync produk di kasir
+  renderProdukGrid();
 }
 function filterStok(){
   const q=document.getElementById('stokSearch').value.toLowerCase();
@@ -1198,6 +1354,89 @@ function filterStokCat(el,cat){
   el.closest('.filter-tabs').querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   renderStok(cat==='semua'?stokData:stokData.filter(s=>s.cat===cat));
+}
+
+// ── EDIT STOK MODAL ──
+let editingIdx=-1;
+function openEditStok(idx){
+  editingIdx=idx;
+  const s=stokData[idx];
+  document.getElementById('editStokEmoji').textContent=s.icon;
+  document.getElementById('editStokNama').textContent=s.nama;
+  document.getElementById('editStokKat').textContent=s.cat+' · stok max '+s.max+' '+s.unit;
+  document.getElementById('editStokQty').textContent=s.qty;
+  document.getElementById('editStokUnit').textContent=s.unit;
+  document.getElementById('editStokMin').value=s.min||10;
+  document.getElementById('editStokHarga').value=s.harga||0;
+  document.getElementById('stokTambahMassal').value='';
+  document.getElementById('modal-editstok').classList.add('open');
+}
+function adjustStok(delta){
+  const el=document.getElementById('editStokQty');
+  const val=Math.max(0,parseInt(el.textContent)+delta);
+  el.textContent=val;
+}
+function tambahMassal(){
+  const v=parseInt(document.getElementById('stokTambahMassal').value)||0;
+  if(v<=0){toast('⚠️ Masukkan jumlah');return;}
+  const el=document.getElementById('editStokQty');
+  el.textContent=parseInt(el.textContent)+v;
+  document.getElementById('stokTambahMassal').value='';
+  toast('✅ +'+v+' ditambahkan ke stok');
+}
+function simpanEditStok(){
+  if(editingIdx<0)return;
+  const s=stokData[editingIdx];
+  s.qty=parseInt(document.getElementById('editStokQty').textContent)||0;
+  s.min=parseInt(document.getElementById('editStokMin').value)||10;
+  s.harga=parseInt(document.getElementById('editStokHarga').value)||0;
+  s.max=Math.max(s.qty,s.max);
+  closeModal('editstok');
+  updateStokHeader();
+  renderStok(stokData);
+  renderProdukGrid();
+  toast('✅ Stok '+s.nama+' berhasil disimpan!');
+}
+function hapusProduk(){
+  if(editingIdx<0)return;
+  const nama=stokData[editingIdx].nama;
+  stokData.splice(editingIdx,1);
+  closeModal('editstok');
+  updateStokHeader();
+  renderStok(stokData);
+  renderProdukGrid();
+  toast('🗑 '+nama+' dihapus dari daftar');
+}
+
+// ── TAMBAH PRODUK BARU ──
+let selectedEmoji='🥤';
+function openTambahProduk(){
+  document.getElementById('newNama').value='';
+  document.getElementById('newQty').value='';
+  document.getElementById('newUnit').value='';
+  document.getElementById('newHarga').value='';
+  selectedEmoji='🥤';
+  document.getElementById('modal-tambahproduk').classList.add('open');
+}
+function pickEmoji(el,emoji){
+  el.closest('#emojiPicker').querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  selectedEmoji=emoji;
+}
+function simpanProdukBaru(){
+  const nama=document.getElementById('newNama').value.trim();
+  const qty=parseInt(document.getElementById('newQty').value)||0;
+  const unit=document.getElementById('newUnit').value.trim()||'pcs';
+  const harga=parseInt(document.getElementById('newHarga').value)||0;
+  const kat=document.querySelector('#newKatChips .chip.on')?.textContent.trim()||'sembako';
+  if(!nama){toast('⚠️ Nama produk wajib diisi');return;}
+  stokData.push({icon:selectedEmoji,nama,cat:kat,qty,max:Math.max(qty,50),unit,level:'normal',min:10,harga});
+  produkData.push({emoji:selectedEmoji,nama,harga,stok:qty});
+  closeModal('tambahproduk');
+  updateStokHeader();
+  renderStok(stokData);
+  renderProdukGrid();
+  toast('✅ Produk '+nama+' berhasil ditambahkan!');
 }
 function renderNotif(){
   const c=document.getElementById('notifList');
@@ -1294,6 +1533,7 @@ renderRincian();
 renderQrisTx();
 renderStok(stokData);
 renderNotif();
+updateStokHeader();
 </script>
 </body>
 </html>
