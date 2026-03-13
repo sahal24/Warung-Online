@@ -611,31 +611,22 @@ body.tema-dark .menu-group{background:#1E293B!important}
         <div class="login-sub">Sistem Informasi Keuangan<br>Toko Retail & UMKM</div>
 
         <div class="login-card">
-          <!-- Email -->
-          <div class="login-inp-wrap">
-            <label class="login-inp-label">Email / Username</label>
-            <div class="login-inp-ico">
-              <div class="login-ico">👤</div>
-              <input type="text" placeholder="contoh@email.com" id="loginUser" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()">
-            </div>
+          <!-- Info -->
+          <div style="background:var(--mint-light);border-radius:16px;padding:14px;border:1px solid var(--mint-mid);margin-bottom:16px;text-align:center">
+            <div style="font-size:22px;margin-bottom:6px">🎯</div>
+            <div style="font-size:13px;font-weight:800;color:var(--mint-dark);margin-bottom:4px">Aplikasi Demo Terbuka</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.6">Ini adalah prototype demo SIKTR.<br>Semua orang bisa mengakses tanpa akun.</div>
           </div>
-          <!-- Password -->
-          <div class="login-inp-wrap">
-            <label class="login-inp-label">Password</label>
-            <div class="login-inp-ico">
-              <div class="login-ico">🔒</div>
-              <input type="password" placeholder="Masukkan password" id="loginPass" onkeydown="if(event.key==='Enter')doLogin()">
-            </div>
+          <!-- Fitur singkat -->
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+            <div style="display:flex;align-items:center;gap:10px"><div style="width:28px;height:28px;border-radius:9px;background:var(--mint-light);display:flex;align-items:center;justify-content:center;font-size:13px">🛒</div><span style="font-size:12px;font-weight:700;color:var(--text)">Kasir Digital & QRIS</span></div>
+            <div style="display:flex;align-items:center;gap:10px"><div style="width:28px;height:28px;border-radius:9px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:13px">📊</div><span style="font-size:12px;font-weight:700;color:var(--text)">Laporan Laba Rugi Otomatis</span></div>
+            <div style="display:flex;align-items:center;gap:10px"><div style="width:28px;height:28px;border-radius:9px;background:var(--purple-light);display:flex;align-items:center;justify-content:center;font-size:13px">✨</div><span style="font-size:12px;font-weight:700;color:var(--text)">AI Smart Insight</span></div>
+            <div style="display:flex;align-items:center;gap:10px"><div style="width:28px;height:28px;border-radius:9px;background:var(--orange-light);display:flex;align-items:center;justify-content:center;font-size:13px">📦</div><span style="font-size:12px;font-weight:700;color:var(--text)">Manajemen Stok Real-time</span></div>
           </div>
-          <!-- Error msg -->
-          <div class="login-err" id="loginErr"></div>
-          <!-- Login button -->
-          <button class="login-btn ripple-btn" onclick="doLogin()" id="loginBtn">Masuk →</button>
-          <div class="login-forgot">Lupa password? <span onclick="toast('📧 Link reset dikirim ke email')">Reset di sini</span></div>
-          <div class="login-divider"><span>atau</span></div>
-          <!-- Demo mode -->
-          <button class="demo-btn" onclick="doLogin('demo')">
-            <span>🎯</span> Masuk sebagai Demo
+          <!-- Single CTA button -->
+          <button class="login-btn ripple-btn" onclick="doLogin('demo')" id="loginBtn">
+            🚀 Mulai Jelajahi Prototype
           </button>
         </div>
         <div class="login-footer">SIKTR v7.0 · Sistem Informasi Keuangan Toko Retail<br>© 2026 BTR Esport · Program Studi Administrasi Bisnis</div>
@@ -1595,46 +1586,15 @@ function startApp(){
 }
 
 // ── LOGIN ──
-const VALID_ACCOUNTS = [
-  {user:'albert',pass:'1234',name:'Toko Pak Albert'},
-  {user:'admin',pass:'admin',name:'Toko Pak Albert'},
-  {user:'demo@siktr.id',pass:'demo123',name:'Toko Pak Albert'},
-];
-
 function doLogin(mode){
   const btn=document.getElementById('loginBtn');
-  const err=document.getElementById('loginErr');
-  err.textContent='';
-
-  if(mode==='demo'){
-    // langsung masuk tanpa cek password
-    loginSuccess();
-    return;
-  }
-
-  const user=(document.getElementById('loginUser').value||'').trim().toLowerCase();
-  const pass=(document.getElementById('loginPass').value||'').trim();
-
-  if(!user||!pass){err.textContent='⚠️ Email dan password wajib diisi';return;}
-
   btn.disabled=true;
-  btn.textContent='Memverifikasi...';
-
-  setTimeout(()=>{
-    btn.disabled=false;
-    btn.textContent='Masuk →';
-    const found=VALID_ACCOUNTS.find(a=>a.user===user&&a.pass===pass);
-    if(found){
-      loginSuccess();
-    } else {
-      err.textContent='❌ Email atau password salah. Coba: albert / 1234';
-      document.getElementById('loginPass').value='';
-    }
-  },700);
+  btn.textContent='Memuat...';
+  setTimeout(()=>{ loginSuccess(); }, 600);
 }
 
 function loginSuccess(){
-  toast('✅ Berhasil masuk!');
+  toast('✅ Selamat datang di SIKTR!');
   setTimeout(startApp, 400);
 }
 
