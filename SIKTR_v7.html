@@ -2,13 +2,13 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#00C896">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="SIKTR">
-<title>SIKTR v3 – Sistem Informasi Keuangan Toko Retail</title>
+<title>SIKTR – Sistem Informasi Keuangan Toko Retail</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -25,7 +25,9 @@
   --shadow-lg:0 8px 32px rgba(0,0,0,.12);
 }
 html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#1a2a3a 0%,#0d1f2d 100%)}
-#app{max-width:430px;height:100dvh;margin:0 auto;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 0 80px rgba(0,0,0,.4)}
+#app{width:100%;max-width:480px;height:100dvh;margin:0 auto;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 0 80px rgba(0,0,0,.4)}
+@media(min-width:481px) and (max-width:768px){#app{max-width:100%;box-shadow:none}}
+@media(min-width:769px){body{display:flex;align-items:center;justify-content:center;min-height:100vh}#app{max-width:430px;height:min(100dvh,900px);border-radius:32px;box-shadow:0 24px 80px rgba(0,0,0,.35)}}
 
 /* SCREEN */
 .screen{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:84px}
@@ -353,13 +355,231 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
 .ripple-btn{position:relative;overflow:hidden}
 .ripple-btn::after{content:'';position:absolute;width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.4);transform:scale(0);opacity:0;transition:transform .4s,opacity .4s;pointer-events:none}
 .ripple-btn:active::after{transform:scale(3);opacity:1;transition:0s}
+
+/* ─── RESPONSIVE SYSTEM ─────────────────────── */
+/* Small phones (≤360px) */
+@media(max-width:360px){
+  .balance-card{margin:10px 12px;padding:16px}
+  .bc-amount{font-size:26px}
+  .ie-row,.stat-row,.qris-stats{margin:0 12px 12px}
+  .sec{padding:0 12px}
+  .top-header{padding:12px 14px 10px}
+  .act-icon{width:38px;height:38px;font-size:17px}
+  .act-lbl{font-size:9px}
+  .pos-wrap{padding:12px}
+  .form-card{padding:14px}
+  .modal-sheet{padding:16px 16px 30px}
+  .np-val{font-size:22px}
+}
+
+/* Large phones (≥390px) */
+@media(min-width:390px){
+  .bc-amount{font-size:34px}
+  .act-icon{width:46px;height:46px;font-size:20px}
+  .act-lbl{font-size:10px}
+}
+
+/* Tablets (≥600px) - side-by-side layout */
+@media(min-width:600px) and (max-width:768px){
+  #app{max-width:100%;box-shadow:none;border-radius:0}
+  .balance-card{margin:16px 20px}
+  .stat-row{grid-template-columns:repeat(3,1fr);margin:0 20px 16px}
+  .ie-row{gap:14px;margin:0 20px 16px}
+  .sec{padding:0 20px}
+  .top-header{padding:16px 22px 14px}
+  .act-grid{grid-template-columns:repeat(4,1fr);gap:12px}
+  .act-icon{width:50px;height:50px;font-size:22px}
+  .act-lbl{font-size:11px}
+  .qris-stats{margin:0 20px 16px;gap:14px}
+  .qris-hero{margin:14px 20px}
+  .produk-grid{grid-template-columns:repeat(4,1fr)}
+  .chart-svg-wrap{height:140px}
+  .ie-val{font-size:18px}
+  .bc-amount{font-size:36px}
+}
+
+/* Desktop / iPad landscape (≥769px) */
+@media(min-width:769px){
+  body{background:linear-gradient(135deg,#0a1628 0%,#1a2a3a 100%)}
+}
+
+/* Safe area (iPhone notch) */
+@supports(padding:max(0px)){
+  .bottom-nav{padding-bottom:max(20px,env(safe-area-inset-bottom));}
+  .screen{padding-bottom:max(84px,calc(72px + env(safe-area-inset-bottom)));}
+}
+
+/* Touch optimization for all */
+button,input,select,textarea{-webkit-appearance:none;touch-action:manipulation}
+input[type="number"]{-webkit-inner-spin-button:none;-moz-appearance:textfield}
+
+/* ─── TEMA SYSTEM ─────────────────────────────── */
+/* Default: Mint (sudah ada di :root) */
+
+body.tema-ocean{
+  --mint:#2563EB;--mint-dark:#1D4ED8;--mint-light:#EFF6FF;--mint-mid:#BFDBFE;
+  --balance-grad:linear-gradient(135deg,#3B82F6 0%,#1D4ED8 60%,#1e3a8a 100%);
+  --balance-shadow:rgba(37,99,235,.35);
+  --fab-grad:linear-gradient(135deg,#60A5FA,#1D4ED8);
+  --fab-shadow:rgba(37,99,235,.4);
+  --prof-grad:linear-gradient(135deg,#3B82F6,#1D4ED8);
+}
+body.tema-sunset{
+  --mint:#EA580C;--mint-dark:#C2410C;--mint-light:#FFF7ED;--mint-mid:#FED7AA;
+  --balance-grad:linear-gradient(135deg,#FB923C 0%,#EA580C 60%,#9a3412 100%);
+  --balance-shadow:rgba(234,88,12,.35);
+  --fab-grad:linear-gradient(135deg,#FB923C,#C2410C);
+  --fab-shadow:rgba(234,88,12,.4);
+  --prof-grad:linear-gradient(135deg,#FB923C,#EA580C);
+}
+body.tema-violet{
+  --mint:#7C3AED;--mint-dark:#6D28D9;--mint-light:#F5F3FF;--mint-mid:#DDD6FE;
+  --balance-grad:linear-gradient(135deg,#A78BFA 0%,#7C3AED 60%,#4c1d95 100%);
+  --balance-shadow:rgba(124,58,237,.35);
+  --fab-grad:linear-gradient(135deg,#A78BFA,#6D28D9);
+  --fab-shadow:rgba(124,58,237,.4);
+  --prof-grad:linear-gradient(135deg,#A78BFA,#7C3AED);
+}
+body.tema-rose{
+  --mint:#E11D48;--mint-dark:#BE123C;--mint-light:#FFF1F2;--mint-mid:#FECDD3;
+  --balance-grad:linear-gradient(135deg,#FB7185 0%,#E11D48 60%,#881337 100%);
+  --balance-shadow:rgba(225,29,72,.35);
+  --fab-grad:linear-gradient(135deg,#FB7185,#BE123C);
+  --fab-shadow:rgba(225,29,72,.4);
+  --prof-grad:linear-gradient(135deg,#FB7185,#E11D48);
+}
+body.tema-dark{
+  --text:#F1F5F9;--text2:#94A3B8;--text3:#64748B;
+  --bg:#0F172A;--card:#1E293B;--border:#334155;--border2:#1E293B;
+  --shadow:0 2px 12px rgba(0,0,0,.4);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.5);
+}
+body.tema-dark .balance-card{background:linear-gradient(135deg,#1E293B,#0F172A)!important;box-shadow:none;border:1px solid #334155}
+body.tema-dark .statusbar,body.tema-dark .top-header,body.tema-dark .bottom-nav{background:#1E293B;border-color:#334155}
+body.tema-dark .ie-card,body.tema-dark .stat-card,body.tema-dark .chart-card,body.tema-dark .act-btn,body.tema-dark .card-white,body.tema-dark .menu-group,body.tema-dark .form-card,body.tema-dark .qris-hero,body.tema-dark .laporan-hero,body.tema-dark .ai-hero,body.tema-dark .produk-card,body.tema-dark .ai-trend-card,body.tema-dark .proyeksi-card,body.tema-dark .ai-tip-card,body.tema-dark .stok-header-card{background:#1E293B!important;border-color:#334155!important}
+body.tema-dark .modal-sheet{background:#1E293B}
+body.tema-dark .inp,body.tema-dark .inp-pre-input,body.tema-dark .note-inp{background:#0F172A;color:#F1F5F9;border-color:#334155}
+body.tema-dark .inp-pre-label{background:#0F172A;color:#94A3B8;border-color:#334155}
+body.tema-dark #app{background:#0F172A}
+body.tema-dark .onboard,body.tema-dark .prof-card,body.tema-dark .qs-card{background:#1E293B!important}
+body.tema-dark .ob-hero{background:linear-gradient(160deg,#1e293b,#0f172a,#0f172a)!important}
+body.tema-dark .chip{background:#0F172A;border-color:#334155;color:#94A3B8}
+body.tema-dark .notif-item.unread{background:#1a2744}
+body.tema-dark .np-btn{background:#1E293B;border-color:#334155;color:#F1F5F9}
+body.tema-dark .pos-display{background:#1E293B}
+body.tema-dark .search-bar{background:#1E293B;border-color:#334155}
+body.tema-dark .ftab{background:#1E293B;border-color:#334155;color:#94A3B8}
+body.tema-dark .modal-action-btn{background:#0F172A;border-color:#334155}
+body.tema-dark .rincian-item,body.tema-dark .riwayat-item,body.tema-dark .tx-item,body.tema-dark .stok-item,body.tema-dark .notif-item,body.tema-dark .feat-row,body.tema-dark .menu-item{border-color:#334155}
+body.tema-dark .menu-group{background:#1E293B!important}
+
+/* Dynamic gradient overrides using CSS var fallbacks */
+.balance-card{background:var(--balance-grad, linear-gradient(135deg,#00d4a0 0%,#00A87E 60%,#007a60 100%));box-shadow:0 8px 32px var(--balance-shadow, rgba(0,168,126,.35))}
+.nav-fab{background:var(--fab-grad, linear-gradient(135deg,#00d4a0,var(--mint-dark)));box-shadow:0 6px 20px var(--fab-shadow, rgba(0,200,150,.4))}
+.prof-banner{background:var(--prof-grad, linear-gradient(135deg,#00d4a0,#00A87E))}
+.prof-av{background:var(--prof-grad, linear-gradient(135deg,var(--mint),var(--mint-dark)))}
+.user-avatar{background:var(--prof-grad, linear-gradient(135deg,var(--mint),var(--mint-dark)))}
+
+/* Tema modal */
+.tema-modal .modal-sheet{border-radius:28px 28px 0 0;padding:24px 20px 36px}
+.tema-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.tema-card{border-radius:18px;padding:14px 10px 12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;border:2.5px solid transparent;transition:all .25s;position:relative;overflow:hidden}
+.tema-card.active{border-color:var(--mint);box-shadow:0 0 0 3px var(--mint-mid)}
+.tema-card:active{transform:scale(.95)}
+.tema-swatch{width:46px;height:46px;border-radius:14px;margin-bottom:2px}
+.tema-name{font-size:11px;font-weight:800;color:var(--text);text-align:center}
+.tema-check{position:absolute;top:6px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--mint);display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;opacity:0;transform:scale(.5);transition:all .2s}
+.tema-card.active .tema-check{opacity:1;transform:scale(1)}
+
+/* Dark mode toggle */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--card, #fff);border-radius:16px;border:1px solid var(--border2);margin-bottom:12px}
+.toggle-label{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+.toggle-switch{width:48px;height:26px;background:var(--border);border-radius:13px;position:relative;cursor:pointer;transition:background .3s;flex-shrink:0}
+.toggle-switch.on{background:var(--mint)}
+.toggle-switch::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .3s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.toggle-switch.on::after{left:25px}
+
+
+/* ─── HISTORI LAPORAN ─────────────────────────── */
+.hist-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:0 16px 2px;margin-bottom:14px}
+.hist-tabs::-webkit-scrollbar{display:none}
+.htab{background:var(--card,#fff);border:1.5px solid var(--border2);border-radius:20px;padding:7px 16px;font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .2s;flex-shrink:0}
+.htab.active{background:var(--mint);color:#fff;border-color:var(--mint)}
+.hist-card{background:var(--card,#fff);border-radius:18px;border:1px solid var(--border2);margin:0 16px 10px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;box-shadow:var(--shadow)}
+.hist-card:active{transform:scale(.98)}
+.hist-card.current{border-color:var(--mint);border-width:2px;background:var(--mint-light)}
+.hist-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hist-info{flex:1;min-width:0}
+.hist-bulan{font-size:13px;font-weight:800;color:var(--text)}
+.hist-tahun{font-size:10px;color:var(--text2);margin-top:1px;font-weight:600}
+.hist-right{text-align:right;flex-shrink:0}
+.hist-laba{font-size:14px;font-weight:900}
+.hist-pct{font-size:10px;font-weight:700;margin-top:2px}
+.hist-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;margin-top:4px;display:inline-block}
+
+/* ─── DATE PICKER MODAL ───────────────────────── */
+.datepick-modal .modal-sheet{max-height:80vh}
+.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.cal-nav{width:36px;height:36px;border-radius:10px;background:var(--bg);border:1.5px solid var(--border2);font-size:16px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.cal-nav:active{background:var(--border2)}
+.cal-title{font-size:15px;font-weight:800;color:var(--text)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:14px}
+.cal-day-label{font-size:10px;font-weight:700;color:var(--text2);text-align:center;padding:4px 0}
+.cal-day{height:36px;border-radius:10px;border:none;background:transparent;font-family:inherit;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cal-day:hover{background:var(--mint-light);color:var(--mint-dark)}
+.cal-day.today{background:var(--mint-light);color:var(--mint-dark);font-weight:800}
+.cal-day.selected{background:var(--mint);color:#fff;font-weight:800;box-shadow:0 2px 8px rgba(0,200,150,.3)}
+.cal-day.other-month{opacity:.3}
+.cal-day.disabled{opacity:.2;cursor:default;pointer-events:none}
+.cal-day.in-range{background:var(--mint-light);border-radius:0}
+.cal-day.range-start{background:var(--mint);color:#fff;border-radius:10px 0 0 10px}
+.cal-day.range-end{background:var(--mint);color:#fff;border-radius:0 10px 10px 0}
+.range-chips{display:flex;gap:8px;margin-bottom:12px}
+.range-chip{flex:1;background:var(--bg);border:1.5px solid var(--border2);border-radius:12px;padding:10px;text-align:center;cursor:pointer;transition:all .2s}
+.range-chip.active{background:var(--mint-light);border-color:var(--mint)}
+.range-chip-label{font-size:9px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.3px}
+.range-chip-val{font-size:12px;font-weight:800;color:var(--text);margin-top:2px}
+
+
+/* ─── LOGIN PAGE ──────────────────────────────── */
+.login-page{min-height:100%;background:linear-gradient(160deg,#d0fbf2 0%,#f0fff9 40%,#f4f7f9 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px 48px;position:relative;overflow:hidden}
+.login-page::before{content:'';position:absolute;top:-80px;right:-80px;width:240px;height:240px;border-radius:50%;background:rgba(0,200,150,.07);pointer-events:none}
+.login-page::after{content:'';position:absolute;bottom:-60px;left:-60px;width:180px;height:180px;border-radius:50%;background:rgba(0,200,150,.05);pointer-events:none}
+.login-logo{width:82px;height:82px;border-radius:26px;background:linear-gradient(135deg,#2ec8a3,#1a9e7e);display:flex;align-items:center;justify-content:center;box-shadow:0 14px 44px rgba(0,168,126,.35);margin-bottom:22px;animation:logoGlow 2s ease infinite}
+.login-title{font-size:26px;font-weight:900;color:var(--text);text-align:center;margin-bottom:6px;line-height:1.2}
+.login-sub{font-size:13px;color:var(--text2);text-align:center;margin-bottom:32px;line-height:1.6}
+.login-card{width:100%;background:#fff;border-radius:24px;padding:24px;box-shadow:0 8px 40px rgba(0,0,0,.08);border:1px solid var(--border2)}
+.login-inp-wrap{margin-bottom:14px}
+.login-inp-label{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:.4px}
+.login-inp{width:100%;border:1.5px solid var(--border);border-radius:13px;padding:13px 14px;font-family:inherit;font-size:14px;color:var(--text);background:#fff;outline:none;transition:border .2s;box-sizing:border-box}
+.login-inp:focus{border-color:var(--mint)}
+.login-inp-ico{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:13px;overflow:hidden;transition:border .2s}
+.login-inp-ico:focus-within{border-color:var(--mint)}
+.login-ico{padding:13px 14px;font-size:16px;background:#fff;flex-shrink:0}
+.login-inp-ico input{flex:1;border:none;outline:none;padding:13px 14px 13px 0;font-family:inherit;font-size:14px;color:var(--text);background:transparent}
+.login-btn{width:100%;background:linear-gradient(135deg,#00d4a0,#00A87E);color:#fff;border:none;border-radius:15px;padding:16px;font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;margin-top:6px;transition:transform .15s,opacity .15s;box-shadow:0 6px 24px rgba(0,200,150,.35)}
+.login-btn:active{transform:scale(.98);opacity:.9}
+.login-btn:disabled{opacity:.6;cursor:not-allowed}
+.login-err{color:var(--pink);font-size:12px;font-weight:700;text-align:center;margin-top:10px;min-height:18px}
+.login-forgot{text-align:center;margin-top:12px;font-size:12px;color:var(--text2)}
+.login-forgot span{color:var(--mint);font-weight:700;cursor:pointer}
+.login-divider{display:flex;align-items:center;gap:10px;margin:14px 0}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--border2)}
+.login-divider span{font-size:11px;color:var(--text3);font-weight:600}
+.demo-btn{width:100%;background:var(--bg);border:1.5px solid var(--border2);border-radius:13px;padding:13px;font-family:inherit;font-size:13px;font-weight:700;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
+.demo-btn:active{background:var(--border2)}
+.login-footer{font-size:11px;color:var(--text3);margin-top:20px;text-align:center}
+
+/* ─── PEMASUKAN MANUAL PAGE ────────────────────── */
+.pmasuk-summary{background:var(--mint-light);border-radius:18px;padding:16px;margin-bottom:14px;border:1px solid var(--mint-mid)}
+
 </style>
 </head>
 <body>
 <div id="app">
 
   <!-- STATUS BAR -->
-  <div class="statusbar" id="statusBar">
+  <div class="statusbar" id="statusBar" style="display:none">
     <span id="clockTime" style="font-weight:700">9:41</span>
     <div class="sb-logo">
       <!-- LOGO SVG INLINE -->
@@ -370,7 +590,6 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
           <path d="M5 8.5L6.5 10L9 7" stroke="#1a9e7e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <span class="logo-text">SIKTR</span>
     </div>
     <span style="font-size:11px;font-weight:600">📶 89%</span>
   </div>
@@ -379,29 +598,47 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
 
     <!-- ══ ONBOARDING ══ -->
     <div class="page active" id="page-onboard">
-      <div class="onboard">
-        <div class="ob-hero">
-          <!-- LOGO BESAR DI ONBOARDING -->
-          <div class="ob-logo-wrap ob-logo-glow">
-            <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-              <rect x="4" y="14" width="44" height="32" rx="8" fill="white" opacity=".92"/>
-              <rect x="10" y="7" width="32" height="12" rx="5" fill="white" opacity=".65"/>
-              <path d="M18 31L22.5 36L34 25" stroke="#1a9e7e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="40" cy="38" r="3" fill="#1a9e7e" opacity=".6"/>
-            </svg>
+      <div class="login-page">
+        <!-- Logo -->
+        <div class="login-logo">
+          <svg width="44" height="44" viewBox="0 0 52 52" fill="none">
+            <rect x="4" y="14" width="44" height="32" rx="8" fill="white" opacity=".92"/>
+            <rect x="10" y="7" width="32" height="12" rx="5" fill="white" opacity=".65"/>
+            <path d="M18 31L22.5 36L34 25" stroke="#1a9e7e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="login-title">Selamat Datang<br>di SIKTR</div>
+        <div class="login-sub">Sistem Informasi Keuangan<br>Toko Retail & UMKM</div>
+
+        <div class="login-card">
+          <!-- Email -->
+          <div class="login-inp-wrap">
+            <label class="login-inp-label">Email / Username</label>
+            <div class="login-inp-ico">
+              <div class="login-ico">👤</div>
+              <input type="text" placeholder="contoh@email.com" id="loginUser" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()">
+            </div>
           </div>
-          <div class="ob-title">Kelola Keuangan<br>Warung Lebih Cerdas</div>
-          <div class="ob-sub">Kasir digital, QRIS, manajemen stok, analisis AI — semua dalam satu aplikasi gratis untuk UMKM.</div>
-          <div class="ob-dots"><div class="odot on"></div><div class="odot"></div><div class="odot"></div></div>
+          <!-- Password -->
+          <div class="login-inp-wrap">
+            <label class="login-inp-label">Password</label>
+            <div class="login-inp-ico">
+              <div class="login-ico">🔒</div>
+              <input type="password" placeholder="Masukkan password" id="loginPass" onkeydown="if(event.key==='Enter')doLogin()">
+            </div>
+          </div>
+          <!-- Error msg -->
+          <div class="login-err" id="loginErr"></div>
+          <!-- Login button -->
+          <button class="login-btn ripple-btn" onclick="doLogin()" id="loginBtn">Masuk →</button>
+          <div class="login-forgot">Lupa password? <span onclick="toast('📧 Link reset dikirim ke email')">Reset di sini</span></div>
+          <div class="login-divider"><span>atau</span></div>
+          <!-- Demo mode -->
+          <button class="demo-btn" onclick="doLogin('demo')">
+            <span>🎯</span> Masuk sebagai Demo
+          </button>
         </div>
-        <div class="feat-list">
-          <div class="feat-row"><div class="fi" style="background:var(--mint-light)">🛒</div><div class="ft"><h4>Kasir Digital (POS)</h4><p>Input transaksi cepat dengan katalog produk & numpad.</p></div></div>
-          <div class="feat-row"><div class="fi" style="background:#EEF2FF">📱</div><div class="ft"><h4>Integrasi QRIS Otomatis</h4><p>Transaksi QRIS langsung tercatat tanpa input manual.</p></div></div>
-          <div class="feat-row"><div class="fi" style="background:#E6FBF6">📦</div><div class="ft"><h4>Manajemen Stok</h4><p>Pantau stok produk & notifikasi stok menipis.</p></div></div>
-          <div class="feat-row"><div class="fi" style="background:#FFF0F3">✨</div><div class="ft"><h4>AI Smart Insight</h4><p>Analisis bisnis & rekomendasi keuangan berbasis AI.</p></div></div>
-          <div class="feat-row"><div class="fi" style="background:#FFF4ED">📊</div><div class="ft"><h4>Laporan Laba Rugi</h4><p>Ekspor PDF & Excel otomatis kapan saja.</p></div></div>
-        </div>
-        <button class="btn-start ripple-btn" onclick="startApp()">Mulai Gratis →</button>
+        <div class="login-footer">SIKTR v7.0 · Sistem Informasi Keuangan Toko Retail<br>© 2026 BTR Esport · Program Studi Administrasi Bisnis</div>
       </div>
     </div>
 
@@ -409,8 +646,8 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
     <div class="page" id="page-home">
       <div class="top-header">
         <div class="th-left">
-          <div class="user-avatar">BS</div>
-          <div><div class="th-name">Warung Bu Sari</div><div class="th-sub">Soreang, Jawa Barat</div></div>
+          <div class="user-avatar">PA</div>
+          <div><div class="th-name">Toko Pak Albert</div><div class="th-sub">Bandung, Jawa Barat</div></div>
         </div>
         <div style="display:flex;gap:8px">
           <button class="icon-btn" onclick="nav('notif')">🔔<div class="notif-dot" id="ndot"></div></button>
@@ -569,13 +806,18 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
           <div style="background:var(--mint);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:8px">+10% vs kemarin</div>
         </div>
         <div class="search-bar" style="margin-bottom:12px"><span style="font-size:16px">🔍</span><input class="search-inp" placeholder="Cari nama atau ID transaksi..." id="txSearch" oninput="filterTx()"></div>
-        <div class="filter-tabs" style="margin-bottom:14px">
+        <div class="filter-tabs" style="margin-bottom:10px" id="txFilterTabs">
           <button class="ftab active" onclick="filterDate(this,'hari')">Hari Ini</button>
           <button class="ftab" onclick="filterDate(this,'kemarin')">Kemarin</button>
           <button class="ftab" onclick="filterDate(this,'minggu')">Minggu Ini</button>
-          <button class="ftab" onclick="filterDate(this,'pilih')">Pilih Tanggal 🗓</button>
+          <button class="ftab" onclick="filterDate(this,'bulan')">Bulan Ini</button>
+          <button class="ftab" onclick="openDatePicker()">🗓 Pilih Tanggal</button>
         </div>
-        <div style="font-size:11px;font-weight:800;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px" id="txDateLabel">12 Mar 2026</div>
+        <!-- Selected date range display -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.5px" id="txDateLabel">13 Mar 2026</div>
+          <div id="txDateRangeBadge" style="display:none;font-size:10px;background:var(--mint-light);color:var(--mint-dark);padding:3px 10px;border-radius:20px;font-weight:700;cursor:pointer" onclick="openDatePicker()">Ubah ›</div>
+        </div>
         <div class="card-white" style="padding:0 16px" id="txFull"></div>
       </div>
     </div>
@@ -636,64 +878,114 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
       <div class="top-header">
         <div class="th-left">
           <button class="icon-btn" onclick="nav('home')" style="font-size:18px">‹</button>
-          <div class="th-name">Laporan Laba Rugi</div>
+          <div>
+            <div class="th-name">Laporan Keuangan</div>
+            <div class="th-sub" id="lapSubTitle">Maret 2026</div>
+          </div>
         </div>
         <div style="display:flex;gap:6px">
           <button class="icon-btn" onclick="toast('📄 Ekspor PDF...')" style="font-size:11px;font-weight:800;color:var(--pink)">PDF</button>
           <button class="icon-btn" onclick="toast('📊 Ekspor Excel...')" style="font-size:11px;font-weight:800;color:var(--mint-dark)">XLS</button>
         </div>
       </div>
-      <div class="laporan-hero">
-        <div class="lh-period">PERIODE</div>
-        <div class="lh-title" id="lap-period">Januari – Juni 2024</div>
-        <div class="lh-2col">
-          <div class="lh-col">
-            <div class="lh-lbl">Total Pendapatan</div>
-            <div class="lh-val" id="lap-pendapatan">Rp 45.000.000</div>
-            <div class="lh-trend" style="color:var(--mint)">▲ +12.5%</div>
+
+      <!-- TAB: Bulanan / Histori -->
+      <div class="hist-tabs">
+        <button class="htab active" onclick="switchLapTab(this,'bulan')">📊 Bulanan</button>
+        <button class="htab" onclick="switchLapTab(this,'histori')">🗂 Riwayat Laporan</button>
+        <button class="htab" onclick="switchLapTab(this,'tahunan')">📅 Tahunan</button>
+      </div>
+
+      <!-- ── VIEW: BULANAN ── -->
+      <div id="lapViewBulan">
+        <!-- Month selector chips -->
+        <div style="padding:0 16px;margin-bottom:12px">
+          <div class="ctabs" id="lapMonthTabs">
+            <button class="ctab active" onclick="switchLaporan(this,'mar')">Mar</button>
+            <button class="ctab" onclick="switchLaporan(this,'feb')">Feb</button>
+            <button class="ctab" onclick="switchLaporan(this,'jan')">Jan</button>
+            <button class="ctab" onclick="switchLaporan(this,'des')">Des '25</button>
+            <button class="ctab" onclick="switchLaporan(this,'nov')">Nov '25</button>
           </div>
-          <div class="lh-col">
-            <div class="lh-lbl">Total Pengeluaran</div>
-            <div class="lh-val" id="lap-pengeluaran">Rp 28.500.000</div>
-            <div class="lh-trend" style="color:var(--pink)">▼ -5.2%</div>
-          </div>
         </div>
-      </div>
-      <div class="net-profit-box">
-        <div>
-          <div class="np-label">Laba Bersih (Net Profit)</div>
-          <div class="np-val" id="lap-profit">Rp 16.500.000</div>
-        </div>
-        <div style="font-size:36px">💰</div>
-      </div>
-      <div style="padding:0 16px;margin-bottom:14px">
-        <div class="ctabs">
-          <button class="ctab active" onclick="switchLaporan(this,'jan')">Jan</button>
-          <button class="ctab" onclick="switchLaporan(this,'feb')">Feb</button>
-          <button class="ctab" onclick="switchLaporan(this,'mar')">Mar</button>
-          <button class="ctab" onclick="switchLaporan(this,'apr')">Apr</button>
-          <button class="ctab" onclick="switchLaporan(this,'mei')">Mei</button>
-          <button class="ctab" onclick="switchLaporan(this,'jun')">Jun</button>
-        </div>
-      </div>
-      <div class="sec">
-        <div class="chart-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <div class="sec-title">Tren Laba Rugi</div>
-            <div style="display:flex;gap:8px">
-              <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;border-radius:50%;background:var(--mint)"></div><span style="font-size:10px;color:var(--text2)">Income</span></div>
-              <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;border-radius:50%;background:var(--pink)"></div><span style="font-size:10px;color:var(--text2)">Expense</span></div>
+        <div class="laporan-hero">
+          <div class="lh-period">PERIODE</div>
+          <div class="lh-title" id="lap-period">Maret 2026</div>
+          <div class="lh-2col">
+            <div class="lh-col">
+              <div class="lh-lbl">Total Pendapatan</div>
+              <div class="lh-val" id="lap-pendapatan">Rp 51.000.000</div>
+              <div class="lh-trend" style="color:var(--mint)" id="lap-trend-masuk">▲ +15.2%</div>
+            </div>
+            <div class="lh-col">
+              <div class="lh-lbl">Total Pengeluaran</div>
+              <div class="lh-val" id="lap-pengeluaran">Rp 31.000.000</div>
+              <div class="lh-trend" style="color:var(--pink)" id="lap-trend-keluar">▼ -3.1%</div>
             </div>
           </div>
-          <div style="height:90px;display:flex;align-items:flex-end;gap:6px" id="lapChart"></div>
-          <div style="display:flex;gap:6px;margin-top:6px" id="lapChartLabels"></div>
         </div>
+        <div class="net-profit-box">
+          <div>
+            <div class="np-label">Laba Bersih (Net Profit)</div>
+            <div class="np-val" id="lap-profit">Rp 20.000.000</div>
+          </div>
+          <div style="font-size:36px">💰</div>
+        </div>
+        <div class="sec">
+          <div class="chart-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+              <div class="sec-title">Tren Laba Rugi</div>
+              <div style="display:flex;gap:8px">
+                <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;border-radius:50%;background:var(--mint)"></div><span style="font-size:10px;color:var(--text2)">Masuk</span></div>
+                <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;border-radius:50%;background:var(--pink)"></div><span style="font-size:10px;color:var(--text2)">Keluar</span></div>
+              </div>
+            </div>
+            <div style="height:90px;display:flex;align-items:flex-end;gap:6px" id="lapChart"></div>
+            <div style="display:flex;gap:6px;margin-top:6px" id="lapChartLabels"></div>
+          </div>
+        </div>
+        <div class="sec">
+          <div class="sec-hd"><div class="sec-title">Rincian Kategori</div><button class="see-all" onclick="toast('📋 Lihat semua...')">Lihat Semua ›</button></div>
+          <div class="card-white" style="padding:0 16px" id="rincianKat"></div>
+        </div>
+        <div class="gap"></div>
       </div>
-      <div class="sec">
-        <div class="sec-hd"><div class="sec-title">Rincian Kategori</div><button class="see-all" onclick="toast('📋 Lihat semua...')">Lihat Semua ›</button></div>
-        <div class="card-white" style="padding:0 16px" id="rincianKat"></div>
+
+      <!-- ── VIEW: HISTORI LAPORAN ── -->
+      <div id="lapViewHistori" style="display:none">
+        <div style="padding:0 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:12px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.4px">12 Bulan Terakhir</div>
+          <div style="font-size:10px;color:var(--text2)">Total: <strong style="color:var(--mint)">Rp 548.5M</strong></div>
+        </div>
+        <div id="historiList"></div>
+        <div class="gap"></div>
       </div>
-      <div class="gap"></div>
+
+      <!-- ── VIEW: TAHUNAN ── -->
+      <div id="lapViewTahunan" style="display:none">
+        <div style="padding:0 16px;margin-bottom:14px">
+          <div style="display:flex;gap:8px">
+            <div style="flex:1;background:var(--mint-light);border-radius:16px;padding:14px;border:1px solid var(--mint-mid);text-align:center">
+              <div style="font-size:10px;color:var(--mint-dark);font-weight:700;margin-bottom:4px">2026 (YTD)</div>
+              <div style="font-size:18px;font-weight:900;color:var(--mint)">Rp 136.5M</div>
+              <div style="font-size:10px;color:var(--mint-dark);font-weight:700;margin-top:3px">▲ +23.4%</div>
+            </div>
+            <div style="flex:1;background:#fff;border-radius:16px;padding:14px;border:1px solid var(--border2);text-align:center">
+              <div style="font-size:10px;color:var(--text2);font-weight:700;margin-bottom:4px">2025 (Full)</div>
+              <div style="font-size:18px;font-weight:900;color:var(--text)">Rp 548.5M</div>
+              <div style="font-size:10px;color:var(--mint);font-weight:700;margin-top:3px">▲ +18.2%</div>
+            </div>
+          </div>
+        </div>
+        <div class="sec">
+          <div class="chart-card">
+            <div class="sec-title" style="margin-bottom:12px">Pendapatan per Bulan 2025</div>
+            <div style="height:90px;display:flex;align-items:flex-end;gap:4px" id="lapTahunanChart"></div>
+            <div style="display:flex;gap:4px;margin-top:6px" id="lapTahunanLabels"></div>
+          </div>
+        </div>
+        <div class="gap"></div>
+      </div>
     </div>
 
     <!-- ══ MANAJEMEN STOK ══ -->
@@ -921,7 +1213,7 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
         </div>
       </div>
       <div class="qris-hero">
-        <div class="qr-label">Warung Bu Sari</div>
+        <div class="qr-label">Toko Pak Albert</div>
         <div class="qr-sub" id="qrisSub">NMID: ID202600000001 · Bank Mandiri</div>
         <div class="qr-frame">
           <div class="qr-code-inner" id="qrCodeGrid"></div>
@@ -968,25 +1260,28 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
     <div class="page" id="page-profil">
       <div class="prof-banner"></div>
       <div class="prof-card">
-        <div class="prof-av">BS</div>
-        <div class="prof-name">Warung Bu Sari</div>
-        <div class="prof-sub">Soreang, Jawa Barat · UMKM sejak 2020</div>
+        <div class="prof-av">PA</div>
+        <div class="prof-name">Toko Pak Albert</div>
+        <div class="prof-sub">Bandung, Jawa Barat · Berdiri sejak 2020</div>
         <div class="prof-badges">
           <span class="prof-badge" style="background:var(--mint-light);color:var(--mint-dark)">✅ QRIS Terverifikasi</span>
           <span class="prof-badge" style="background:var(--yellow-light);color:#B8860B">⭐ Top UMKM</span>
           <span class="prof-badge" style="background:var(--blue-light);color:var(--blue)">🏆 4 Tahun Aktif</span>
         </div>
       </div>
-      <!-- Stats mini -->
+      <!-- Stats mini: hanya Transaksi, Produk Aktif, Laba Bulan Ini -->
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 16px 14px">
         <div class="stat-card"><div class="stat-val" style="color:var(--mint)">1.2k</div><div class="stat-lbl">Transaksi</div></div>
-        <div class="stat-card"><div class="stat-val" style="color:var(--blue)">98%</div><div class="stat-lbl">Sukses Rate</div></div>
-        <div class="stat-card"><div class="stat-val" style="color:var(--orange)">4.8★</div><div class="stat-lbl">Rating</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--blue)">8</div><div class="stat-lbl">Produk Aktif</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--mint)">20M</div><div class="stat-lbl">Laba Mar</div></div>
       </div>
       <div class="menu-group">
         <div class="menu-item" onclick="toast('✏️ Edit profil toko')"><div class="mi-icon" style="background:var(--mint-light)">👤</div><div class="mi-label">Edit Profil Toko</div><div class="mi-arrow">›</div></div>
         <div class="menu-item" onclick="toast('🔔 Pengaturan notifikasi')"><div class="mi-icon" style="background:var(--blue-light)">🔔</div><div class="mi-label">Notifikasi</div><span class="mi-badge" style="background:var(--pink-light);color:var(--pink)">3 Baru</span><div class="mi-arrow">›</div></div>
         <div class="menu-item" onclick="nav('qris')"><div class="mi-icon" style="background:var(--mint-light)">📱</div><div class="mi-label">Pengaturan QRIS</div><div class="mi-arrow">›</div></div>
+      </div>
+      <div class="menu-group">
+        <div class="menu-item" onclick="openTema()"><div class="mi-icon" style="background:var(--mint-light)">🎨</div><div class="mi-label">Tampilan & Tema</div><div id="temaCurrentBadge" class="mi-badge" style="background:var(--mint-light);color:var(--mint-dark)">Mint</div><div class="mi-arrow">›</div></div>
       </div>
       <div class="menu-group">
         <div class="menu-item" onclick="toast('🔒 Keamanan & privasi')"><div class="mi-icon" style="background:var(--orange-light)">🔒</div><div class="mi-label">Keamanan & Privasi</div><div class="mi-arrow">›</div></div>
@@ -1002,6 +1297,183 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
       <div class="gap"></div>
     </div>
 
+
+  <!-- TEMA MODAL -->
+  <div class="modal-overlay tema-modal" id="modal-tema">
+    <div class="modal-sheet">
+      <div class="mhandle"></div>
+      <div class="m-title">🎨 Tampilan & Tema</div>
+
+      <!-- Dark mode toggle -->
+      <div class="toggle-row" onclick="toggleDark()">
+        <div class="toggle-label">🌙 Mode Gelap</div>
+        <div class="toggle-switch" id="darkToggle"></div>
+      </div>
+
+      <!-- Color themes -->
+      <div style="font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Pilih Warna Tema</div>
+      <div class="tema-grid" id="temaGrid">
+        <div class="tema-card active" onclick="applyTema(this,'mint')" data-tema="mint">
+          <div class="tema-check">✓</div>
+          <div class="tema-swatch" style="background:linear-gradient(135deg,#00d4a0,#00A87E)"></div>
+          <div class="tema-name">Mint</div>
+        </div>
+        <div class="tema-card" onclick="applyTema(this,'ocean')" data-tema="ocean">
+          <div class="tema-check">✓</div>
+          <div class="tema-swatch" style="background:linear-gradient(135deg,#60A5FA,#1D4ED8)"></div>
+          <div class="tema-name">Ocean</div>
+        </div>
+        <div class="tema-card" onclick="applyTema(this,'sunset')" data-tema="sunset">
+          <div class="tema-check">✓</div>
+          <div class="tema-swatch" style="background:linear-gradient(135deg,#FB923C,#C2410C)"></div>
+          <div class="tema-name">Sunset</div>
+        </div>
+        <div class="tema-card" onclick="applyTema(this,'violet')" data-tema="violet">
+          <div class="tema-check">✓</div>
+          <div class="tema-swatch" style="background:linear-gradient(135deg,#A78BFA,#6D28D9)"></div>
+          <div class="tema-name">Violet</div>
+        </div>
+        <div class="tema-card" onclick="applyTema(this,'rose')" data-tema="rose">
+          <div class="tema-check">✓</div>
+          <div class="tema-swatch" style="background:linear-gradient(135deg,#FB7185,#BE123C)"></div>
+          <div class="tema-name">Rose</div>
+        </div>
+        <div class="tema-card" onclick="applyTema(this,'dark')" data-tema="dark" id="temaCardDark">
+          <div class="tema-check">✓</div>
+          <div class="tema-swatch" style="background:linear-gradient(135deg,#475569,#0F172A)"></div>
+          <div class="tema-name">Dark</div>
+        </div>
+      </div>
+
+      <!-- Preview strip -->
+      <div style="background:var(--mint-light);border-radius:16px;padding:14px;border:1px solid var(--mint-mid);margin-bottom:16px">
+        <div style="font-size:11px;font-weight:700;color:var(--mint-dark);margin-bottom:8px">Preview Tema</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div style="width:36px;height:36px;border-radius:12px;background:var(--mint);display:flex;align-items:center;justify-content:center;font-size:16px">🏠</div>
+          <div style="flex:1;height:8px;background:var(--mint);border-radius:4px;opacity:.7"></div>
+          <div style="width:28px;height:28px;border-radius:8px;background:var(--mint-mid)"></div>
+        </div>
+        <div style="margin-top:8px;display:flex;gap:6px">
+          <div style="flex:1;height:5px;background:var(--mint);border-radius:3px"></div>
+          <div style="flex:2;height:5px;background:var(--mint-mid);border-radius:3px"></div>
+          <div style="flex:1;height:5px;background:var(--mint-light);border-radius:3px;border:1px solid var(--mint-mid)"></div>
+        </div>
+      </div>
+
+      <button onclick="closeModal('tema')" style="width:100%;background:var(--mint);color:#fff;border:none;border-radius:15px;padding:15px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px var(--balance-shadow, rgba(0,200,150,.3))">✅ Terapkan Tema</button>
+    </div>
+  </div>
+
+
+  <!-- DATE PICKER MODAL -->
+  <div class="modal-overlay datepick-modal" id="modal-datepicker">
+    <div class="modal-sheet">
+      <div class="mhandle"></div>
+      <div class="m-title" style="margin-bottom:14px">🗓 Pilih Tanggal</div>
+
+      <!-- Quick range chips -->
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+        <button class="chip" onclick="quickRange(this,1)">Hari Ini</button>
+        <button class="chip" onclick="quickRange(this,7)">7 Hari</button>
+        <button class="chip" onclick="quickRange(this,14)">14 Hari</button>
+        <button class="chip" onclick="quickRange(this,30)">30 Hari</button>
+        <button class="chip" onclick="quickRange(this,0)">Bulan Ini</button>
+      </div>
+
+      <!-- Calendar header -->
+      <div class="cal-header">
+        <button class="cal-nav" onclick="calPrev()">‹</button>
+        <div class="cal-title" id="calMonthTitle">Maret 2026</div>
+        <button class="cal-nav" onclick="calNext()">›</button>
+      </div>
+
+      <!-- Day labels -->
+      <div class="cal-grid" style="margin-bottom:6px">
+        <div class="cal-day-label">Min</div>
+        <div class="cal-day-label">Sen</div>
+        <div class="cal-day-label">Sel</div>
+        <div class="cal-day-label">Rab</div>
+        <div class="cal-day-label">Kam</div>
+        <div class="cal-day-label">Jum</div>
+        <div class="cal-day-label">Sab</div>
+      </div>
+
+      <!-- Calendar days grid -->
+      <div class="cal-grid" id="calDaysGrid"></div>
+
+      <!-- Selected range display -->
+      <div class="range-chips" id="calRangeDisplay">
+        <div class="range-chip active">
+          <div class="range-chip-label">Dari</div>
+          <div class="range-chip-val" id="calFromVal">—</div>
+        </div>
+        <div style="display:flex;align-items:center;color:var(--text3);font-size:18px">→</div>
+        <div class="range-chip">
+          <div class="range-chip-label">Sampai</div>
+          <div class="range-chip-val" id="calToVal">—</div>
+        </div>
+      </div>
+
+      <button onclick="applyDateRange()" style="width:100%;background:var(--mint);color:#fff;border:none;border-radius:15px;padding:15px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(0,200,150,.3)">✅ Tampilkan Transaksi</button>
+    </div>
+  </div>
+
+
+    <!-- ══ CATAT PEMASUKAN MANUAL ══ -->
+    <div class="page" id="page-pemasukan">
+      <div class="top-header">
+        <div class="th-left">
+          <button class="icon-btn" onclick="nav('home')" style="font-size:18px">‹</button>
+          <div class="th-name">Catat Pemasukan</div>
+        </div>
+      </div>
+      <div style="padding:14px 16px">
+        <!-- Summary card -->
+        <div class="pmasuk-summary">
+          <div style="font-size:11px;color:var(--mint-dark);font-weight:700;margin-bottom:2px;text-transform:uppercase;letter-spacing:.3px">Total Pemasukan Bulan Ini</div>
+          <div style="font-size:26px;font-weight:900;color:var(--text)" id="pmaTotal">Rp 51.000.000</div>
+          <div style="font-size:11px;color:var(--mint-dark);margin-top:3px;font-weight:700">📅 Maret 2026</div>
+        </div>
+        <!-- Form -->
+        <div class="form-card" style="margin-bottom:14px">
+          <div class="inp-grp">
+            <label class="inp-label">Nominal Pemasukan</label>
+            <div class="inp-prefix">
+              <div class="inp-pre-label">Rp</div>
+              <input class="inp-pre-input" type="number" placeholder="0" id="val-masuk" inputmode="numeric">
+            </div>
+          </div>
+          <div class="inp-grp">
+            <label class="inp-label">Sumber / Kategori</label>
+            <div class="cat-chips" id="pmaKatChips">
+              <button class="chip on" onclick="pickChip(this)">🛒 Penjualan</button>
+              <button class="chip" onclick="pickChip(this)">💳 Transfer</button>
+              <button class="chip" onclick="pickChip(this)">📦 Grosir</button>
+              <button class="chip" onclick="pickChip(this)">🎁 Lainnya</button>
+            </div>
+          </div>
+          <div class="inp-grp">
+            <label class="inp-label">Nama / Keterangan</label>
+            <input class="inp" type="text" placeholder="Contoh: Penjualan harian, Pembayaran hutang..." id="name-masuk">
+          </div>
+          <div class="inp-grp">
+            <label class="inp-label">Catatan (Opsional)</label>
+            <textarea class="note-inp" placeholder="Catatan tambahan..." id="note-masuk"></textarea>
+          </div>
+          <div class="inp-grp">
+            <label class="inp-label">Tanggal</label>
+            <div style="border:1.5px solid var(--border);border-radius:13px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:#fff" onclick="toast('📅 Pilih tanggal...')">
+              <span style="font-size:13px;color:var(--text)">📅 13/03/2026</span>
+              <span style="color:var(--text3)">›</span>
+            </div>
+          </div>
+          <button class="simpan-btn" style="background:linear-gradient(135deg,#00d4a0,var(--mint-dark))" onclick="simpanPemasukan()">💰 Simpan Pemasukan</button>
+        </div>
+        <!-- Riwayat -->
+        <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px">Riwayat Pemasukan</div>
+        <div class="card-white" style="padding:0 16px" id="riwayatMasuk"></div>
+      </div>
+    </div>
   </div><!-- /screen -->
 
   <!-- BOTTOM NAV -->
@@ -1023,7 +1495,7 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
       <div class="m-title">Tambah Transaksi</div>
       <div class="modal-actions">
         <button class="modal-action-btn" onclick="closeModal('fab');nav('kasir')"><div class="mab-icon" style="background:var(--mint-light)">🛒</div><div><div class="mab-title">Kasir Digital (POS)</div><div class="mab-sub">Input transaksi cepat dengan katalog</div></div></button>
-        <button class="modal-action-btn" onclick="closeModal('fab');nav('transaksi')"><div class="mab-icon" style="background:var(--blue-light)">💵</div><div><div class="mab-title">Catat Pemasukan Manual</div><div class="mab-sub">Input transaksi masuk secara manual</div></div></button>
+        <button class="modal-action-btn" onclick="closeModal('fab');nav('pemasukan')"><div class="mab-icon" style="background:var(--mint-light)">💰</div><div><div class="mab-title">Catat Pemasukan Manual</div><div class="mab-sub">Input nominal pemasukan toko secara manual</div></div></button>
         <button class="modal-action-btn" onclick="closeModal('fab');nav('pengeluaran')"><div class="mab-icon" style="background:var(--pink-light)">💸</div><div><div class="mab-title">Catat Pengeluaran</div><div class="mab-sub">Catat biaya & pengeluaran toko</div></div></button>
         <button class="modal-action-btn" onclick="closeModal('fab');nav('qris')"><div class="mab-icon" style="background:var(--mint-light)">📱</div><div><div class="mab-title">Generate QRIS</div><div class="mab-sub">Tampilkan QR code pembayaran</div></div></button>
       </div>
@@ -1117,8 +1589,91 @@ function nav(page,el){
 }
 function startApp(){
   document.getElementById('bottomNav').style.display='flex';
+  document.getElementById('statusBar').style.display='flex';
   nav('home');
   document.getElementById('nb-home').classList.add('active');
+}
+
+// ── LOGIN ──
+const VALID_ACCOUNTS = [
+  {user:'albert',pass:'1234',name:'Toko Pak Albert'},
+  {user:'admin',pass:'admin',name:'Toko Pak Albert'},
+  {user:'demo@siktr.id',pass:'demo123',name:'Toko Pak Albert'},
+];
+
+function doLogin(mode){
+  const btn=document.getElementById('loginBtn');
+  const err=document.getElementById('loginErr');
+  err.textContent='';
+
+  if(mode==='demo'){
+    // langsung masuk tanpa cek password
+    loginSuccess();
+    return;
+  }
+
+  const user=(document.getElementById('loginUser').value||'').trim().toLowerCase();
+  const pass=(document.getElementById('loginPass').value||'').trim();
+
+  if(!user||!pass){err.textContent='⚠️ Email dan password wajib diisi';return;}
+
+  btn.disabled=true;
+  btn.textContent='Memverifikasi...';
+
+  setTimeout(()=>{
+    btn.disabled=false;
+    btn.textContent='Masuk →';
+    const found=VALID_ACCOUNTS.find(a=>a.user===user&&a.pass===pass);
+    if(found){
+      loginSuccess();
+    } else {
+      err.textContent='❌ Email atau password salah. Coba: albert / 1234';
+      document.getElementById('loginPass').value='';
+    }
+  },700);
+}
+
+function loginSuccess(){
+  toast('✅ Berhasil masuk!');
+  setTimeout(startApp, 400);
+}
+
+// ── SIMPAN PEMASUKAN MANUAL ──
+const riwayatMasukData = [
+  {name:'Penjualan Harian',meta:'12 Mar · Penjualan',amt:'Rp 1.850.000',days:'Kemarin'},
+  {name:'Pembayaran Grosir',meta:'10 Mar · Grosir',amt:'Rp 3.200.000',days:'3 Hari Lalu'},
+  {name:'Penjualan Online',meta:'8 Mar · Transfer',amt:'Rp 780.000',days:'5 Hari Lalu'},
+];
+
+function simpanPemasukan(){
+  const v=document.getElementById('val-masuk').value;
+  const n=document.getElementById('name-masuk').value.trim()||'Pemasukan Baru';
+  const kat=document.querySelector('#pmaKatChips .chip.on')?.textContent.trim()||'Penjualan';
+  if(!v||parseInt(v)<=0){toast('⚠️ Masukkan nominal terlebih dahulu');return;}
+  const amt=parseInt(v);
+  // Tambah ke riwayat pemasukan
+  riwayatMasukData.unshift({name:n,meta:'Baru saja · '+kat,amt:'Rp '+amt.toLocaleString('id'),days:'Baru saja'});
+  // Tambah ke txData juga
+  txData.unshift({name:n,meta:'Baru saja · Manual · '+kat,amt:'Rp '+amt.toLocaleString('id'),color:'var(--mint)',badge:'MANUAL',badgeBg:'var(--blue-light)',badgeColor:'var(--blue)',icon:'💰',iconBg:'var(--mint-light)'});
+  // Reset form
+  document.getElementById('val-masuk').value='';
+  document.getElementById('name-masuk').value='';
+  document.getElementById('note-masuk').value='';
+  // Re-render
+  renderRiwayatMasuk();
+  renderTx('txHome',txData.slice(0,4));
+  renderTx('txFull',txData);
+  toast('✅ Pemasukan Rp '+amt.toLocaleString('id')+' berhasil dicatat!');
+}
+
+function renderRiwayatMasuk(){
+  const c=document.getElementById('riwayatMasuk');
+  if(!c)return;
+  c.innerHTML=riwayatMasukData.map(r=>`
+    <div class="riwayat-item">
+      <div><div class="rw-name">${r.name}</div><div class="rw-meta">${r.meta}</div></div>
+      <div><div class="rw-amt" style="color:var(--mint)">${r.amt}</div><div class="rw-days">${r.days}</div></div>
+    </div>`).join('');
 }
 
 // ── KASIR / POS ──
@@ -1485,26 +2040,256 @@ function filterTx(){
 function filterDate(el,mode){
   el.closest('.filter-tabs').querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
-  const labels={hari:'13 Mar 2026',kemarin:'12 Mar 2026',minggu:'10 – 13 Mar 2026',pilih:'Pilih tanggal...'};
-  document.getElementById('txDateLabel').textContent=labels[mode];
+  const today=new Date(2026,2,13); // 13 Mar 2026
+  const fmt=(d)=>{const bln=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];return d.getDate()+' '+bln[d.getMonth()]+' '+d.getFullYear();};
+  let label='';
+  if(mode==='hari'){label='13 Mar 2026';document.getElementById('txDateRangeBadge').style.display='none';}
+  else if(mode==='kemarin'){label='12 Mar 2026';document.getElementById('txDateRangeBadge').style.display='none';}
+  else if(mode==='minggu'){label='10 – 13 Mar 2026';document.getElementById('txDateRangeBadge').style.display='none';}
+  else if(mode==='bulan'){label='Maret 2026';document.getElementById('txDateRangeBadge').style.display='none';}
+  document.getElementById('txDateLabel').textContent=label;
+  // Render relevant txData subset for demo
+  const count={hari:4,kemarin:5,minggu:txData.length,bulan:txData.length};
+  renderTx('txFull',txData.slice(0,count[mode]||txData.length));
 }
 
-// ── LAPORAN SWITCH ──
+// ── LAPORAN SWITCH (BULANAN) ──
+const laporanDB = {
+  mar:{label:'Maret 2026',p:51000000,pe:31000000,tm:'+15.2%',tk:'-3.1%',inc:[52,61,58,75,65,90,82,70,88,95,78,65],exp:[35,42,38,50,43,58,52,45,56,62,50,40]},
+  feb:{label:'Februari 2026',p:38500000,pe:24500000,tm:'+8.4%',tk:'+2.1%',inc:[40,48,44,55,50,62,56,47,58,64,52,44],exp:[28,35,31,42,37,48,43,35,44,49,40,35]},
+  jan:{label:'Januari 2026',p:42000000,pe:26000000,tm:'+6.2%',tk:'-1.4%',inc:[44,52,48,60,55,68,61,52,63,70,57,48],exp:[30,38,34,46,40,52,46,38,48,54,43,38]},
+  des:{label:'Desember 2025',p:58000000,pe:35000000,tm:'+22.1%',tk:'+8.5%',inc:[60,72,66,82,75,95,88,75,92,100,83,70],exp:[40,50,45,58,53,68,62,52,65,72,58,50]},
+  nov:{label:'November 2025',p:45000000,pe:28000000,tm:'+10.3%',tk:'+3.2%',inc:[47,56,52,65,59,74,67,57,70,77,63,53],exp:[32,41,37,49,44,56,50,42,52,58,47,41]},
+};
+const bulanNames={jan:'Januari',feb:'Februari',mar:'Maret',apr:'April',mei:'Mei',jun:'Juni',jul:'Juli',ags:'Agustus',sep:'September',okt:'Oktober',nov:'November',des:'Desember'};
+
 function switchLaporan(el,month){
   el.closest('.ctabs').querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
-  const data={
-    jan:{p:'Rp 42.000.000',pe:'Rp 26.000.000',pr:'Rp 16.000.000'},
-    feb:{p:'Rp 38.500.000',pe:'Rp 24.500.000',pr:'Rp 14.000.000'},
-    mar:{p:'Rp 51.000.000',pe:'Rp 31.000.000',pr:'Rp 20.000.000'},
-    apr:{p:'Rp 47.000.000',pe:'Rp 29.000.000',pr:'Rp 18.000.000'},
-    mei:{p:'Rp 53.000.000',pe:'Rp 33.000.000',pr:'Rp 20.000.000'},
-    jun:{p:'Rp 45.000.000',pe:'Rp 28.500.000',pr:'Rp 16.500.000'},
-  };
-  const d=data[month]||data.jun;
-  document.getElementById('lap-pendapatan').textContent=d.p;
-  document.getElementById('lap-pengeluaran').textContent=d.pe;
-  document.getElementById('lap-profit').textContent=d.pr;
+  const d=laporanDB[month]||laporanDB.mar;
+  const rp=n=>'Rp '+n.toLocaleString('id');
+  const profit=d.p-d.pe;
+  document.getElementById('lap-period').textContent=d.label;
+  document.getElementById('lap-pendapatan').textContent=rp(d.p);
+  document.getElementById('lap-pengeluaran').textContent=rp(d.pe);
+  document.getElementById('lap-profit').textContent=rp(profit);
+  const elTM=document.getElementById('lap-trend-masuk');if(elTM){elTM.textContent=(d.tm.startsWith('+')?'▲ ':'▼ ')+d.tm;elTM.style.color=d.tm.startsWith('+')?'var(--mint)':'var(--pink)';}
+  const elTK=document.getElementById('lap-trend-keluar');if(elTK){elTK.textContent=(d.tk.startsWith('-')?'▼ ':'▲ ')+d.tk;elTK.style.color=d.tk.startsWith('-')?'var(--mint)':'var(--pink)';}
+  // Update sub title
+  const sub=document.getElementById('lapSubTitle');if(sub)sub.textContent=d.label;
+  // Rebuild chart with month data
+  buildLapChartFromData(d.inc,d.exp);
+}
+
+function buildLapChartFromData(inc,exp){
+  const max=Math.max(...inc,...exp);
+  const c=document.getElementById('lapChart');
+  const l=document.getElementById('lapChartLabels');
+  if(!c)return;
+  const labels=['M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12'].slice(0,inc.length);
+  // only show every 3rd label for space
+  c.innerHTML=inc.map((_,i)=>{
+    const ih=Math.round((inc[i]/max)*85);
+    const eh=Math.round((exp[i]/max)*85);
+    return `<div style="flex:1;display:flex;gap:1px;align-items:flex-end;height:100%">
+      <div style="flex:1;height:${ih}px;background:var(--mint);border-radius:3px 3px 0 0;transition:height .6s ease"></div>
+      <div style="flex:1;height:${eh}px;background:var(--pink);border-radius:3px 3px 0 0;opacity:.75;transition:height .6s ease"></div>
+    </div>`;
+  }).join('');
+  if(l)l.innerHTML=labels.map((lbl,i)=>`<span style="flex:1;font-size:8px;text-align:center;color:var(--text2);font-weight:600">${i%3===0?lbl:''}</span>`).join('');
+}
+
+// ── LAPORAN TAB SWITCH ──
+function switchLapTab(el,tab){
+  el.closest('.hist-tabs').querySelectorAll('.htab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('lapViewBulan').style.display=tab==='bulan'?'block':'none';
+  document.getElementById('lapViewHistori').style.display=tab==='histori'?'block':'none';
+  document.getElementById('lapViewTahunan').style.display=tab==='tahunan'?'block':'none';
+  if(tab==='histori')renderHistori();
+  if(tab==='tahunan')buildTahunanChart();
+}
+
+// ── HISTORI LAPORAN ──
+const historiDB=[
+  {bulan:'Maret 2026',tahun:'',masuk:51000000,keluar:31000000,pct:'+15.2%',up:true,icon:'📊',current:true},
+  {bulan:'Februari 2026',tahun:'',masuk:38500000,keluar:24500000,pct:'+8.4%',up:true,icon:'📊'},
+  {bulan:'Januari 2026',tahun:'',masuk:42000000,keluar:26000000,pct:'+6.2%',up:true,icon:'📊'},
+  {bulan:'Desember 2025',tahun:'',masuk:58000000,keluar:35000000,pct:'+22.1%',up:true,icon:'🎄'},
+  {bulan:'November 2025',tahun:'',masuk:45000000,keluar:28000000,pct:'+10.3%',up:true,icon:'📊'},
+  {bulan:'Oktober 2025',tahun:'',masuk:43000000,keluar:27500000,pct:'+7.8%',up:true,icon:'📊'},
+  {bulan:'September 2025',tahun:'',masuk:39500000,keluar:25000000,pct:'+4.2%',up:true,icon:'📊'},
+  {bulan:'Agustus 2025',tahun:'',masuk:41000000,keluar:26500000,pct:'+5.6%',up:true,icon:'📊'},
+  {bulan:'Juli 2025',tahun:'',masuk:46000000,keluar:29000000,pct:'+12.3%',up:true,icon:'🏖'},
+  {bulan:'Juni 2025',tahun:'',masuk:38000000,keluar:24000000,pct:'+2.1%',up:true,icon:'📊'},
+  {bulan:'Mei 2025',tahun:'',masuk:37000000,keluar:25000000,pct:'-1.2%',up:false,icon:'📊'},
+  {bulan:'April 2025',tahun:'',masuk:40000000,keluar:24000000,pct:'+8.9%',up:true,icon:'📊'},
+];
+
+function renderHistori(){
+  const c=document.getElementById('historiList');
+  if(!c)return;
+  c.innerHTML=historiDB.map((h,i)=>{
+    const laba=h.masuk-h.keluar;
+    const rp=n=>'Rp '+(n/1000000).toFixed(1)+'M';
+    const isUp=h.up;
+    return `<div class="hist-card ${h.current?'current':''}" onclick="jumpToLaporan('${i}')">
+      <div class="hist-icon" style="background:${h.current?'var(--mint-light)':'var(--bg)'}">
+        ${h.current?'<span style="font-size:18px">📌</span>':h.icon}
+      </div>
+      <div class="hist-info">
+        <div class="hist-bulan">${h.bulan} ${h.current?'<span style="font-size:9px;background:var(--mint);color:#fff;padding:2px 7px;border-radius:20px;font-weight:700">Terkini</span>':''}</div>
+        <div class="hist-tahun">Pendapatan ${rp(h.masuk)} · Keluar ${rp(h.keluar)}</div>
+        <div style="margin-top:6px;height:4px;background:var(--border2);border-radius:2px;overflow:hidden">
+          <div style="height:100%;width:${Math.round((laba/h.masuk)*100)}%;background:${isUp?'var(--mint)':'var(--pink)'};border-radius:2px"></div>
+        </div>
+      </div>
+      <div class="hist-right">
+        <div class="hist-laba" style="color:${isUp?'var(--mint)':'var(--pink)'}">${rp(laba)}</div>
+        <div class="hist-pct" style="color:${isUp?'var(--mint)':'var(--pink)'}">laba ${h.pct}</div>
+        <span class="hist-badge" style="background:${isUp?'var(--mint-light)':'var(--pink-light)'};color:${isUp?'var(--mint-dark)':'var(--pink)'}">
+          ${isUp?'▲':'▼'} ${h.pct}
+        </span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function jumpToLaporan(idx){
+  const h=historiDB[parseInt(idx)];
+  if(!h)return;
+  switchLapTab(document.querySelector('.htab'),'bulan');
+  // find matching month
+  const monthMap={'Maret':'mar','Februari':'feb','Januari':'jan','Desember':'des','November':'nov','Oktober':'okt'};
+  const key=Object.keys(monthMap).find(k=>h.bulan.includes(k));
+  if(key){
+    const tabs=document.querySelectorAll('#lapMonthTabs .ctab');
+    tabs.forEach(t=>{if(t.textContent.includes(monthMap[key].charAt(0).toUpperCase()+monthMap[key].slice(1,3))||t.onclick.toString().includes(monthMap[key])){switchLaporan(t,monthMap[key]);}});
+  }
+  toast('📊 Membuka laporan '+h.bulan);
+}
+
+function buildTahunanChart(){
+  const data={inc:[35,42,38,51,47,53,45,58,42,38,41,46,58,51],exp:[22,27,24,31,29,33,28,35,26,24,26,29,35,31],labels:['Apr25','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des','Jan26','Feb','Mar','','']};
+  const max=Math.max(...data.inc,...data.exp);
+  const c=document.getElementById('lapTahunanChart');
+  const l=document.getElementById('lapTahunanLabels');
+  if(!c)return;
+  c.innerHTML=data.inc.slice(0,12).map((_,i)=>{
+    const ih=Math.round((data.inc[i]/max)*85);
+    const eh=Math.round((data.exp[i]/max)*85);
+    return `<div style="flex:1;display:flex;gap:1px;align-items:flex-end;height:100%">
+      <div style="flex:1;height:${ih}px;background:var(--mint);border-radius:2px 2px 0 0"></div>
+      <div style="flex:1;height:${eh}px;background:var(--pink);opacity:.7;border-radius:2px 2px 0 0"></div>
+    </div>`;
+  }).join('');
+  if(l)l.innerHTML=data.labels.slice(0,12).map((lbl,i)=>`<span style="flex:1;font-size:8px;text-align:center;color:var(--text2);font-weight:600">${i%2===0?lbl:''}</span>`).join('');
+}
+
+// ── DATE PICKER ──
+let calYear=2026,calMonth=2; // Mar 2026 (0-indexed)
+let calFrom=null,calTo=null,calSelecting='from';
+
+function openDatePicker(){
+  calYear=2026;calMonth=2;
+  const today=new Date(2026,2,13);
+  calFrom=new Date(2026,2,13);calTo=null;calSelecting='from';
+  renderCal();
+  document.getElementById('modal-datepicker').classList.add('open');
+}
+
+function renderCal(){
+  const bln=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  document.getElementById('calMonthTitle').textContent=bln[calMonth]+' '+calYear;
+  const firstDay=new Date(calYear,calMonth,1).getDay();
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const prevDays=new Date(calYear,calMonth,0).getDate();
+  const today=new Date(2026,2,13);
+  let html='';
+  // Prev month days
+  for(let i=firstDay-1;i>=0;i--){
+    html+=`<button class="cal-day other-month" disabled>${prevDays-i}</button>`;
+  }
+  // Current month
+  for(let d=1;d<=daysInMonth;d++){
+    const date=new Date(calYear,calMonth,d);
+    const isToday=date.getTime()===today.getTime();
+    const isFuture=date>today;
+    const isFrom=calFrom&&date.getTime()===calFrom.getTime();
+    const isTo=calTo&&date.getTime()===calTo.getTime();
+    const inRange=calFrom&&calTo&&date>calFrom&&date<calTo;
+    let cls='cal-day';
+    if(isToday)cls+=' today';
+    if(isFuture)cls+=' disabled';
+    if(isFrom)cls+=' selected range-start';
+    else if(isTo)cls+=' selected range-end';
+    else if(inRange)cls+=' in-range';
+    html+=`<button class="${cls}" onclick="calPick(${d})" ${isFuture?'disabled':''}>${d}</button>`;
+  }
+  // Fill remaining
+  const total=firstDay+daysInMonth;
+  const remaining=(7-total%7)%7;
+  for(let d=1;d<=remaining;d++){
+    html+=`<button class="cal-day other-month" disabled>${d}</button>`;
+  }
+  document.getElementById('calDaysGrid').innerHTML=html;
+  // Update range display
+  const fmt=(dt)=>{if(!dt)return'—';const bln2=['1 Jan','1 Feb','1 Mar','1 Apr','1 Mei','1 Jun','1 Jul','1 Ags','1 Sep','1 Okt','1 Nov','1 Des'];return dt.getDate()+' '+['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'][dt.getMonth()];};
+  document.getElementById('calFromVal').textContent=fmt(calFrom);
+  document.getElementById('calToVal').textContent=fmt(calTo);
+}
+
+function calPick(d){
+  const picked=new Date(calYear,calMonth,d);
+  if(calSelecting==='from'||!calFrom){
+    calFrom=picked;calTo=null;calSelecting='to';
+  } else {
+    if(picked<calFrom){calTo=calFrom;calFrom=picked;}
+    else calTo=picked;
+    calSelecting='from';
+  }
+  renderCal();
+}
+
+function calPrev(){
+  calMonth--;if(calMonth<0){calMonth=11;calYear--;}
+  renderCal();
+}
+function calNext(){
+  const today=new Date(2026,2,13);
+  const next=new Date(calYear,calMonth+1,1);
+  if(next>today)return;
+  calMonth++;if(calMonth>11){calMonth=0;calYear++;}
+  renderCal();
+}
+
+function quickRange(el,days){
+  document.querySelectorAll('.datepick-modal .chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  const today=new Date(2026,2,13);
+  if(days===0){// this month
+    calFrom=new Date(2026,2,1);calTo=new Date(2026,2,13);
+  } else {
+    calTo=new Date(today);
+    calFrom=new Date(today);calFrom.setDate(calFrom.getDate()-(days-1));
+  }
+  calYear=calTo.getFullYear();calMonth=calTo.getMonth();
+  calSelecting='from';
+  renderCal();
+}
+
+function applyDateRange(){
+  if(!calFrom){toast('⚠️ Pilih tanggal terlebih dahulu');return;}
+  const bln=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+  const fmt=dt=>dt.getDate()+' '+bln[dt.getMonth()]+' '+dt.getFullYear();
+  const label=calTo?fmt(calFrom)+' – '+fmt(calTo):fmt(calFrom);
+  document.getElementById('txDateLabel').textContent=label;
+  document.getElementById('txDateRangeBadge').style.display='flex';
+  // deactivate filter tabs
+  document.querySelectorAll('#txFilterTabs .ftab').forEach(t=>t.classList.remove('active'));
+  renderTx('txFull',txData);
+  closeModal('datepicker');
+  toast('📅 Menampilkan: '+label);
 }
 
 // ── SIMPAN PENGELUARAN ──
@@ -1588,7 +2373,7 @@ function computeAI(){
   if(avgTx > 50000)
     rekoms.push({icon:'🎯',color:'var(--blue)',bg:'var(--blue-light)',
       title:'Rata-rata Transaksi '+rp(avgTx),
-      desc:'Nilai transaksi per pelanggan sangat baik untuk skala warung UMKM. Pertahankan!'});
+      desc:'Nilai transaksi per pelanggan sangat baik untuk skala toko retail UMKM. Pertahankan!'});
   rekoms.push({icon:'💡',color:'var(--blue)',bg:'var(--blue-light)',
     title:'Tingkatkan Repeat Customer',
     desc:'Buat program loyalitas sederhana — stamp card atau diskon pelanggan tetap untuk meningkatkan frekuensi kunjungan.'});
@@ -1828,6 +2613,58 @@ const styleEl=document.createElement('style');
 styleEl.textContent='@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}';
 document.head.appendChild(styleEl);
 
+
+// ── TEMA ENGINE ──
+let currentTema = 'mint';
+let isDarkMode = false;
+const temaNames = {mint:'Mint',ocean:'Ocean',sunset:'Sunset',violet:'Violet',rose:'Rose',dark:'Dark'};
+
+function applyTema(el, tema) {
+  // Remove all tema classes
+  const allTemas = ['tema-ocean','tema-sunset','tema-violet','tema-rose'];
+  document.body.classList.remove(...allTemas);
+
+  // If dark card selected, toggle dark directly
+  if(tema === 'dark'){
+    isDarkMode = !isDarkMode;
+    document.body.classList.toggle('tema-dark', isDarkMode);
+    document.getElementById('darkToggle').classList.toggle('on', isDarkMode);
+    // Don't change color theme
+    document.querySelectorAll('.tema-card[data-tema="dark"]').forEach(c => c.classList.toggle('active', isDarkMode));
+    updateTemaBadge(isDarkMode ? 'dark' : currentTema);
+    return;
+  }
+
+  // Apply color theme
+  currentTema = tema;
+  if(tema !== 'mint') document.body.classList.add('tema-' + tema);
+
+  // Update active card
+  document.querySelectorAll('.tema-card:not([data-tema="dark"])').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+
+  updateTemaBadge(tema);
+  toast('🎨 Tema ' + temaNames[tema] + ' diterapkan!');
+}
+
+function toggleDark(){
+  isDarkMode = !isDarkMode;
+  document.body.classList.toggle('tema-dark', isDarkMode);
+  document.getElementById('darkToggle').classList.toggle('on', isDarkMode);
+  document.querySelectorAll('.tema-card[data-tema="dark"]').forEach(c => c.classList.toggle('active', isDarkMode));
+  updateTemaBadge(isDarkMode ? 'dark' : currentTema);
+  toast(isDarkMode ? '🌙 Mode gelap aktif' : '☀️ Mode terang aktif');
+}
+
+function updateTemaBadge(tema){
+  const badge = document.getElementById('temaCurrentBadge');
+  if(badge) badge.textContent = temaNames[tema] || tema;
+}
+
+function openTema(){
+  document.getElementById('modal-tema').classList.add('open');
+}
+
 // ── CHIP ──
 function pickChip(el){el.closest('.cat-chips').querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');}
 
@@ -1845,7 +2682,7 @@ function clearNotif(){document.getElementById('ndot').style.display='none';notif
 
 // ── INIT ──
 buildAreaChart('week');
-buildLapChart();
+buildLapChartFromData(laporanDB.mar.inc,laporanDB.mar.exp);
 buildQR();
 renderProdukGrid();
 renderTx('txHome',txData.slice(0,4));
@@ -1857,6 +2694,7 @@ renderStok(stokData);
 renderNotif();
 updateStokHeader();
 renderAI();
+renderRiwayatMasuk();
 </script>
 </body>
 </html>
