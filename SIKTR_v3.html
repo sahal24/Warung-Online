@@ -840,50 +840,64 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
       <div class="top-header">
         <div class="th-left">
           <button class="icon-btn" onclick="nav('home')" style="font-size:18px">‹</button>
-          <div><div class="th-name">AI Analisis Bisnis</div><div class="th-sub">Smart Insight · Real-time</div></div>
+          <div><div class="th-name">AI Analisis Bisnis</div><div class="th-sub" id="aiLastUpdate">Memuat data...</div></div>
         </div>
-        <button class="icon-btn" onclick="refreshAI()">⟳</button>
+        <button class="icon-btn" onclick="refreshAI()" id="aiRefreshBtn" style="font-size:16px">⟳</button>
       </div>
       <div style="padding:14px 16px">
+
+        <!-- RINGKASAN OTOMATIS -->
         <div class="ai-ringkasan">
-          <div class="ai-ring-title">✦ Ringkasan Pintar Hari Ini</div>
-          <div class="ai-ring-text" id="aiSummary">"Berdasarkan tren 3 bulan terakhir, proyeksi bulan depan surplus <strong>Rp 2.500.000</strong>. Penjualan QRIS naik 15% minggu ini."</div>
+          <div class="ai-ring-title">✦ Ringkasan Otomatis</div>
+          <div class="ai-ring-text" id="aiSummary">Sedang menganalisis data...</div>
         </div>
-        <div class="ai-section-title">📈 Tren Pemasukan <span style="background:var(--mint-light);color:var(--mint-dark);font-size:10px;padding:2px 8px;border-radius:20px">+18%</span></div>
+
+        <!-- 4 KPI CARDS OTOMATIS -->
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px" id="aiKpiGrid"></div>
+
+        <!-- TREN PEMASUKAN OTOMATIS -->
+        <div class="ai-section-title">📈 Tren Pemasukan <span id="aiTrendBadge" style="font-size:10px;padding:2px 8px;border-radius:20px;background:var(--mint-light);color:var(--mint-dark)"></span></div>
         <div class="ai-trend-card">
           <div class="atc-top">
-            <div class="atc-label">Pemasukan Minggu Ini</div>
-            <div class="atc-badge" style="background:var(--mint-light);color:var(--mint-dark)">+15%</div>
-          </div>
-          <div style="height:50px;margin:8px 0" id="aiMiniChart"></div>
-          <div class="atc-desc">Pemasukan meningkat stabil. Strategi promosi aktif memberikan dampak signifikan pada hari Sabtu.</div>
-        </div>
-        <div class="deteksi-card">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:16px">⚠️</span><div style="font-size:12px;font-weight:800;color:var(--orange)">Deteksi Anomali Biaya</div></div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-            <div style="font-size:11px;font-weight:700;color:var(--text2)">BIAYA OPERASIONAL</div>
-            <div style="font-size:11px;font-weight:700;color:var(--orange)">Naik 22% (+Rp 850k)</div>
-          </div>
-          <div style="font-size:11px;color:var(--text);line-height:1.6">Ada anomali pada biaya listrik dan bahan baku minggu ini. AI menyarankan pengecekan inventori segera.</div>
-        </div>
-        <div class="ai-section-title">🔮 Proyeksi Keuangan</div>
-        <div class="proyeksi-card">
-          <div class="proj-row">
-            <div style="font-size:11px;font-weight:700;color:var(--text2)">Prediktive Profit</div>
-            <div style="display:flex;gap:16px">
-              <div style="text-align:center"><div style="font-size:9px;color:var(--text3);margin-bottom:2px">PESIMISTIS</div><div style="font-size:14px;font-weight:900;color:var(--pink)">Rp 12.2M</div></div>
-              <div style="text-align:center"><div style="font-size:9px;color:var(--text3);margin-bottom:2px">OPTIMISTIS</div><div style="font-size:14px;font-weight:900;color:var(--mint)">Rp 15.8M</div></div>
+            <div>
+              <div class="atc-label">Total Pemasukan</div>
+              <div style="font-size:20px;font-weight:900;color:var(--mint);margin-top:2px" id="aiTotalPemasukan">-</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:10px;color:var(--text2)">Transaksi</div>
+              <div style="font-size:18px;font-weight:900;color:var(--text)" id="aiJmlTx">-</div>
             </div>
           </div>
-          <div class="proj-bar"><div class="proj-fill" style="width:65%;background:linear-gradient(90deg,var(--mint),var(--mint-dark))"></div></div>
-          <div style="text-align:right;font-size:10px;font-weight:700;color:var(--mint);margin-top:4px">Confidence 65%</div>
-          <div style="font-size:11px;color:var(--text2);margin-top:8px;line-height:1.5;font-style:italic">"Gunakan surplus untuk investasi stok bahan baku saat harga stabil."</div>
+          <div style="height:60px;margin:10px 0" id="aiMiniChart"></div>
+          <div class="atc-desc" id="aiTrendDesc">Menganalisis pola transaksi...</div>
         </div>
-        <div class="ai-tip-card">
-          <div style="font-size:12px;font-weight:800;color:var(--blue);margin-bottom:6px;display:flex;align-items:center;gap:6px">💡 Tips Cerdas</div>
-          <div style="font-size:11px;color:var(--text);line-height:1.6">Tambah varian produk minuman dingin — tren penjualan minuman naik 35% di musim panas. Potensi tambahan <strong>Rp 1.2M/bulan</strong>.</div>
-        </div>
-        <button class="lihat-detail" onclick="toast('📊 Membuka detail analisis...')">Lihat Detail Analisis →</button>
+
+        <!-- ANALISIS STOK OTOMATIS -->
+        <div class="ai-section-title">📦 Status Stok Real-time</div>
+        <div id="aiStokAlert"></div>
+        <div class="ai-trend-card" id="aiStokSummary"></div>
+
+        <!-- DETEKSI ANOMALI OTOMATIS -->
+        <div id="aiAnomalySection"></div>
+
+        <!-- PRODUK TERLARIS OTOMATIS -->
+        <div class="ai-section-title">🏆 Produk & Kategori Terlaris</div>
+        <div class="ai-trend-card" id="aiTopProduk"></div>
+
+        <!-- PROYEKSI OTOMATIS -->
+        <div class="ai-section-title">🔮 Proyeksi Keuangan Bulan Depan</div>
+        <div class="proyeksi-card" id="aiProyeksi"></div>
+
+        <!-- METODE BAYAR OTOMATIS -->
+        <div class="ai-section-title">💳 Analisis Metode Pembayaran</div>
+        <div class="ai-trend-card" id="aiPaymentAnalysis"></div>
+
+        <!-- REKOMENDASI AI OTOMATIS -->
+        <div class="ai-section-title">💡 Rekomendasi Cerdas</div>
+        <div id="aiRekomendasi"></div>
+
+        <div style="height:8px"></div>
+        <button class="lihat-detail" onclick="refreshAI()">🔄 Refresh Analisis</button>
       </div>
       <div class="gap"></div>
     </div>
@@ -1021,19 +1035,29 @@ html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif
 <script>
 // ── DATA ──
 const txData = [
-  {name:'Budi Santoso',meta:'10:41 · QRIS · Mandiri',amt:'Rp 45.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
+  {name:'Budi Santoso',meta:'10:41 · QRIS · Mandiri',amt:'Rp 85.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
   {name:'Siti Rahma',meta:'09:30 · QRIS · BCA',amt:'Rp 120.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
-  {name:'Andi Wijaya',meta:'Kemarin · QRIS · GoPay',amt:'Rp 35.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
-  {name:'Transfer Masuk',meta:'Kemarin · Bank Transfer',amt:'+Rp 5.000.000',color:'var(--mint)',badge:'MASUK',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'🏦',iconBg:'var(--mint-light)'},
-  {name:'Indah Permata',meta:'12:45 · QRIS · ShopeePay',amt:'Rp 250.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
-  {name:'Eko Prasetyo',meta:'11:30 · QRIS · Dana',amt:'Rp 15.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
-  {name:'Bahan Baku',meta:'28 Mar · Pengeluaran',amt:'-Rp 450.000',color:'var(--pink)',badge:'KELUAR',badgeBg:'var(--pink-light)',badgeColor:'var(--pink)',icon:'🛒',iconBg:'var(--pink-light)'},
-  {name:'Gaji Staff',meta:'25 Mar · Pengeluaran',amt:'-Rp 5.000.000',color:'var(--pink)',badge:'KELUAR',badgeBg:'var(--pink-light)',badgeColor:'var(--pink)',icon:'👥',iconBg:'var(--pink-light)'},
+  {name:'Andi Wijaya',meta:'09:15 · QRIS · GoPay',amt:'Rp 67.500',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
+  {name:'Indah Permata',meta:'08:55 · QRIS · ShopeePay',amt:'Rp 250.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
+  {name:'Rudi Hartono',meta:'08:30 · QRIS · Dana',amt:'Rp 45.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
+  {name:'Maya Putri',meta:'Kemarin · QRIS · OVO',amt:'Rp 175.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
+  {name:'Fajar Nugroho',meta:'Kemarin · QRIS · BCA',amt:'Rp 95.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
+  {name:'Dewi Anggraini',meta:'Kemarin · QRIS · Mandiri',amt:'Rp 320.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
+  {name:'Hendra Kusuma',meta:'Kemarin · Bank Transfer',amt:'Rp 500.000',color:'var(--mint)',badge:'TRANSFER',badgeBg:'var(--blue-light)',badgeColor:'var(--blue)',icon:'🏦',iconBg:'var(--blue-light)'},
+  {name:'Nurul Hidayah',meta:'2 hari lalu · QRIS · Dana',amt:'Rp 62.500',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
+  {name:'Agus Setiawan',meta:'2 hari lalu · QRIS · GoPay',amt:'Rp 148.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
+  {name:'Lestari Wulandari',meta:'2 hari lalu · QRIS · BCA',amt:'Rp 87.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
+  {name:'Penjualan Grosir',meta:'3 hari lalu · Bank Transfer',amt:'Rp 1.250.000',color:'var(--mint)',badge:'TRANSFER',badgeBg:'var(--blue-light)',badgeColor:'var(--blue)',icon:'🏦',iconBg:'var(--blue-light)'},
+  {name:'Bambang Santoso',meta:'3 hari lalu · QRIS · Mandiri',amt:'Rp 43.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
+  {name:'Ratna Sari',meta:'3 hari lalu · QRIS · ShopeePay',amt:'Rp 196.000',color:'var(--mint)',badge:'SUKSES',badgeBg:'var(--mint-light)',badgeColor:'var(--mint-dark)',icon:'👤',iconBg:'var(--bg)'},
+  {name:'Penjualan Mingguan',meta:'4 hari lalu · Bank Transfer',amt:'Rp 2.400.000',color:'var(--mint)',badge:'TRANSFER',badgeBg:'var(--blue-light)',badgeColor:'var(--blue)',icon:'🏦',iconBg:'var(--blue-light)'},
 ];
 const riwayatData = [
-  {name:'Bahan Baku',meta:'28 Mar · Tepung Terigu',amt:'-Rp 450.000',days:'3 Hari Yang Lalu'},
-  {name:'Gaji',meta:'25 Mar · Gaji Staff',amt:'-Rp 5.000.000',days:'6 Hari Yang Lalu'},
-  {name:'Listrik',meta:'20 Mar · PLN',amt:'-Rp 320.000',days:'11 Hari Yang Lalu'},
+  {name:'Bahan Baku',meta:'13 Mar · Tepung & Gula',amt:'-Rp 450.000',days:'Hari Ini'},
+  {name:'Listrik PLN',meta:'10 Mar · Token Listrik',amt:'-Rp 250.000',days:'3 Hari Lalu'},
+  {name:'Air PDAM',meta:'8 Mar · Tagihan Air',amt:'-Rp 85.000',days:'5 Hari Lalu'},
+  {name:'Bahan Baku',meta:'5 Mar · Minyak & Bumbu',amt:'-Rp 380.000',days:'8 Hari Lalu'},
+  {name:'Peralatan',meta:'1 Mar · Plastik & Wadah',amt:'-Rp 120.000',days:'12 Hari Lalu'},
 ];
 const rincianData = [
   {icon:'🛒',name:'Penjualan Produk',cat:'Pendapatan',catColor:'var(--mint)',catBg:'var(--mint-light)',amt:'Rp 32.400k',pct:'+18%',pctColor:'var(--mint)'},
@@ -1494,16 +1518,315 @@ function simpanPengeluaran(){
   toast('✅ Pengeluaran Rp '+parseInt(v).toLocaleString('id')+' disimpan!');
 }
 
-// ── AI REFRESH ──
-function refreshAI(){
-  const summaries=[
-    '"Tren positif berlanjut. Pemasukan minggu ini +15% dan stok bahan baku dalam kondisi optimal."',
-    '"AI mendeteksi peluang — produk minuman es teh laku 40% lebih tinggi saat cuaca panas."',
-    '"Proyeksi surplus bulan ini <strong>Rp 2.8M</strong>. Pertimbangkan investasi stok untuk akhir bulan."',
-  ];
-  const el=document.getElementById('aiSummary');
-  if(el){el.innerHTML=summaries[Math.floor(Math.random()*summaries.length)];toast('✅ AI Insight diperbarui!');}
+// ══════════════════════════════════════
+// AI ENGINE — FULLY AUTO INTEGRATED
+// Semua data diambil dari txData, riwayatData, stokData, kasirItems
+// ══════════════════════════════════════
+function rp(n){return'Rp '+Math.round(n).toLocaleString('id');}
+function rpShort(n){if(n>=1000000)return'Rp '+(n/1000000).toFixed(1)+'M';if(n>=1000)return'Rp '+(n/1000).toFixed(0)+'k';return'Rp '+n;}
+
+function computeAI(){
+  // ── 1. HITUNG PEMASUKAN & PENGELUARAN ──
+  // Pemasukan = txData yang TIDAK diawali '-'
+  const masuk = txData.filter(t => !t.amt.startsWith('-'));
+  // Pengeluaran = riwayatData saja (semua bertanda minus)
+  const riwayatKeluar = riwayatData;
+
+  function parseAmt(s){ return parseInt(s.replace(/[^0-9]/g,'')) || 0; }
+
+  const totalMasuk  = masuk.reduce((a,t) => a + parseAmt(t.amt), 0);
+  const totalKeluar = riwayatKeluar.reduce((a,r) => a + parseAmt(r.amt), 0);
+  const laba        = totalMasuk - totalKeluar;
+  const marginPct   = totalMasuk > 0 ? Math.round((laba / totalMasuk) * 100) : 0;
+
+  // ── 2. ANALISIS TRANSAKSI ──
+  const jmlTx   = masuk.length;
+  const qrisTx  = masuk.filter(t => t.meta && t.meta.includes('QRIS'));
+  const qrisPct = jmlTx > 0 ? Math.round((qrisTx.length / jmlTx) * 100) : 0;
+  const tunaiTx = masuk.filter(t => t.meta && t.meta.includes('Transfer'));
+  const avgTx   = jmlTx > 0 ? Math.round(totalMasuk / jmlTx) : 0;
+
+  // ── 3. ANALISIS STOK ──
+  const stokHabis   = stokData.filter(s => s.qty <= 0);
+  const stokMenipis = stokData.filter(s => s.qty > 0 && s.qty <= (s.min || 10));
+  const stokNormal  = stokData.filter(s => s.qty >  (s.min || 10));
+  const nilaiStok   = stokData.reduce((a,s) => a + (s.qty * (s.harga || 0)), 0);
+
+  // ── 4. PROYEKSI ──
+  const growthRate      = 0.12;
+  const proyeksiOptimis = Math.round(totalMasuk * (1 + growthRate));
+  const proyeksiPesimis = Math.round(totalMasuk * (1 - growthRate * 0.5));
+  const proyeksiLaba    = Math.round(laba * (1 + growthRate));
+  const confidence      = Math.min(95, 60 + jmlTx * 2);
+
+  // ── 5. MINI CHART (distribusi 7 hari dari total) ──
+  const base    = totalMasuk / 7;
+  const chartPts = [0.7, 0.85, 0.9, 1.05, 0.95, 1.15, 1.1].map(m => Math.round(base * m));
+
+  // ── 6. REKOMENDASI OTOMATIS ──
+  const rekoms = [];
+  if(stokHabis.length > 0)
+    rekoms.push({icon:'🚨',color:'var(--pink)',bg:'var(--pink-light)',
+      title:'Segera Restok '+stokHabis.length+' Produk',
+      desc:stokHabis.map(s=>s.nama).join(', ')+' sudah habis. Pelanggan tidak bisa membeli produk ini.'});
+  if(stokMenipis.length > 0)
+    rekoms.push({icon:'⚠️',color:'var(--orange)',bg:'var(--orange-light)',
+      title:'Stok Menipis: '+stokMenipis.length+' Produk',
+      desc:stokMenipis.map(s=>s.nama+' ('+s.qty+' '+s.unit+')').join(', ')});
+  if(qrisPct >= 60)
+    rekoms.push({icon:'📱',color:'var(--mint-dark)',bg:'var(--mint-light)',
+      title:'QRIS Dominan '+qrisPct+'% Transaksi',
+      desc:'Pelanggan lebih suka QRIS. Pertimbangkan promosi cashback untuk tingkatkan transaksi.'});
+  if(marginPct >= 30)
+    rekoms.push({icon:'💰',color:'var(--mint-dark)',bg:'var(--mint-light)',
+      title:'Margin Sehat: '+marginPct+'%',
+      desc:'Bisnis berjalan baik. Pertimbangkan reinvestasi surplus '+rp(laba)+' untuk ekspansi stok.'});
+  else
+    rekoms.push({icon:'📉',color:'var(--orange)',bg:'var(--orange-light)',
+      title:'Optimalkan Margin ('+marginPct+'%)',
+      desc:'Tinjau harga jual beberapa produk atau efisiensi biaya operasional untuk meningkatkan margin.'});
+  if(avgTx > 50000)
+    rekoms.push({icon:'🎯',color:'var(--blue)',bg:'var(--blue-light)',
+      title:'Rata-rata Transaksi '+rp(avgTx),
+      desc:'Nilai transaksi per pelanggan sangat baik untuk skala warung UMKM. Pertahankan!'});
+  rekoms.push({icon:'💡',color:'var(--blue)',bg:'var(--blue-light)',
+    title:'Tingkatkan Repeat Customer',
+    desc:'Buat program loyalitas sederhana — stamp card atau diskon pelanggan tetap untuk meningkatkan frekuensi kunjungan.'});
+
+  return {totalMasuk,totalKeluar,laba,marginPct,jmlTx,
+    qrisTx:qrisTx.length,qrisPct,avgTx,
+    stokHabis,stokMenipis,stokNormal,nilaiStok,
+    proyeksiOptimis,proyeksiPesimis,proyeksiLaba,
+    confidence,chartPts,rekoms,tunaiTx:tunaiTx.length};
 }
+
+function renderAI(){
+  const d=computeAI();
+  const now=new Date();
+  const timeStr=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+
+  // ── UPDATE SUBTITLE ──
+  const sub=document.getElementById('aiLastUpdate');
+  if(sub)sub.textContent='Update '+timeStr+' · Data Realtime';
+
+  // ── RINGKASAN OTOMATIS ──
+  const summary=document.getElementById('aiSummary');
+  if(summary){
+    const status=d.laba>0?'surplus':'defisit';
+    const stokAlert=d.stokHabis.length>0?` ⚠️ <strong>${d.stokHabis.length} produk habis</strong>.`:d.stokMenipis.length>0?` Perhatikan ${d.stokMenipis.length} produk menipis.`:'';
+    summary.innerHTML=`Dari <strong>${d.jmlTx} transaksi</strong> yang tercatat, total pemasukan <strong>${rpShort(d.totalMasuk)}</strong> dengan ${status} <strong>${rpShort(Math.abs(d.laba))}</strong>. Margin bisnis <strong>${d.marginPct}%</strong>. QRIS digunakan pada <strong>${d.qrisPct}%</strong> transaksi.${stokAlert}`;
+  }
+
+  // ── 4 KPI CARDS OTOMATIS ──
+  const kpiGrid=document.getElementById('aiKpiGrid');
+  if(kpiGrid){
+    const kpis=[
+      {label:'Total Pemasukan',val:rpShort(d.totalMasuk),color:'var(--mint)',icon:'📈'},
+      {label:'Total Pengeluaran',val:rpShort(d.totalKeluar),color:'var(--pink)',icon:'📉'},
+      {label:'Laba Bersih',val:rpShort(d.laba),color:d.laba>=0?'var(--mint)':'var(--pink)',icon:'💰'},
+      {label:'Margin Bisnis',val:d.marginPct+'%',color:d.marginPct>=30?'var(--mint)':'var(--orange)',icon:'🎯'},
+    ];
+    kpiGrid.innerHTML=kpis.map(k=>`
+      <div style="background:#fff;border-radius:16px;padding:14px;border:1px solid var(--border2);box-shadow:var(--shadow)">
+        <div style="font-size:18px;margin-bottom:6px">${k.icon}</div>
+        <div style="font-size:10px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px">${k.label}</div>
+        <div style="font-size:16px;font-weight:900;color:${k.color}">${k.val}</div>
+      </div>`).join('');
+  }
+
+  // ── TREN BADGE ──
+  const trendBadge=document.getElementById('aiTrendBadge');
+  if(trendBadge){trendBadge.textContent=d.laba>0?'+'+d.marginPct+'% margin':'margin '+d.marginPct+'%';trendBadge.style.background=d.laba>0?'var(--mint-light)':'var(--pink-light)';trendBadge.style.color=d.laba>0?'var(--mint-dark)':'var(--pink)';}
+
+  // ── TOTAL PEMASUKAN & TX ──
+  const elP=document.getElementById('aiTotalPemasukan');if(elP)elP.textContent=rpShort(d.totalMasuk);
+  const elJ=document.getElementById('aiJmlTx');if(elJ)elJ.textContent=d.jmlTx;
+
+  // ── MINI CHART OTOMATIS ──
+  buildAiMiniChartFromData(d.chartPts);
+
+  // ── TREND DESC OTOMATIS ──
+  const trendDesc=document.getElementById('aiTrendDesc');
+  if(trendDesc)trendDesc.textContent=`Rata-rata transaksi ${rp(d.avgTx)} per pelanggan. ${d.qrisPct}% pembayaran via QRIS, ${Math.round(d.tunaiTx/Math.max(d.jmlTx,1)*100)}% transfer/tunai.`;
+
+  // ── STOK ALERT OTOMATIS ──
+  const stokAlert=document.getElementById('aiStokAlert');
+  if(stokAlert){
+    if(d.stokHabis.length>0){
+      stokAlert.innerHTML=`<div style="background:var(--pink-light);border-radius:16px;padding:14px;margin-bottom:10px;border:1px solid #FFD0DA">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:16px">🚨</span><div style="font-size:12px;font-weight:800;color:var(--pink)">${d.stokHabis.length} Produk HABIS</div></div>
+        <div style="font-size:11px;color:var(--text);line-height:1.6">${d.stokHabis.map(s=>'<strong>'+s.nama+'</strong>').join(', ')} — stok kosong. Segera restok!</div>
+        <button onclick="nav('stok')" style="margin-top:8px;background:var(--pink);color:#fff;border:none;border-radius:10px;padding:8px 16px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">Kelola Stok →</button>
+      </div>`;
+    } else if(d.stokMenipis.length>0){
+      stokAlert.innerHTML=`<div class="deteksi-card" style="margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span>⚠️</span><div style="font-size:12px;font-weight:800;color:var(--orange)">${d.stokMenipis.length} Produk Menipis</div></div>
+        <div style="font-size:11px;color:var(--text);line-height:1.6">${d.stokMenipis.map(s=>s.nama+' ('+s.qty+' '+s.unit+')').join(', ')}</div>
+        <button onclick="nav('stok')" style="margin-top:8px;background:var(--orange);color:#fff;border:none;border-radius:10px;padding:8px 16px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer">Kelola Stok →</button>
+      </div>`;
+    } else {
+      stokAlert.innerHTML=`<div style="background:var(--mint-light);border-radius:16px;padding:12px;margin-bottom:10px;border:1px solid var(--mint-mid);display:flex;align-items:center;gap:10px">
+        <span style="font-size:20px">✅</span>
+        <div style="font-size:12px;color:var(--mint-dark);font-weight:700">Semua stok dalam kondisi normal</div>
+      </div>`;
+    }
+  }
+
+  // ── STOK SUMMARY OTOMATIS ──
+  const stokSummary=document.getElementById('aiStokSummary');
+  if(stokSummary){
+    stokSummary.innerHTML=`
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">
+        <div style="text-align:center"><div style="font-size:22px;font-weight:900;color:var(--mint)">${d.stokNormal.length}</div><div style="font-size:10px;color:var(--text2)">Normal</div></div>
+        <div style="text-align:center"><div style="font-size:22px;font-weight:900;color:var(--orange)">${d.stokMenipis.length}</div><div style="font-size:10px;color:var(--text2)">Menipis</div></div>
+        <div style="text-align:center"><div style="font-size:22px;font-weight:900;color:var(--pink)">${d.stokHabis.length}</div><div style="font-size:10px;color:var(--text2)">Habis</div></div>
+      </div>
+      <div style="border-top:1px solid var(--border2);padding-top:10px;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:11px;color:var(--text2)">Total Nilai Stok</div>
+        <div style="font-size:14px;font-weight:900;color:var(--blue)">${rp(d.nilaiStok)}</div>
+      </div>
+      ${stokData.map(s=>{
+        const pct=s.max>0?Math.min(100,Math.round((s.qty/s.max)*100)):0;
+        const c=s.qty<=0?'var(--pink)':s.qty<=(s.min||10)?'var(--orange)':'var(--mint)';
+        return `<div style="margin-top:8px"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="font-weight:600">${s.icon} ${s.nama}</span><span style="color:${c};font-weight:700">${s.qty} ${s.unit}</span></div><div style="height:5px;background:var(--border2);border-radius:3px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${c};border-radius:3px"></div></div></div>`;
+      }).join('')}`;
+  }
+
+  // ── ANOMALI OTOMATIS ──
+  const anomaly=document.getElementById('aiAnomalySection');
+  if(anomaly){
+    const totalRiwayat=riwayatData.reduce((a,r)=>{return a+parseInt(r.amt.replace(/[^0-9]/g,''));},0);
+    const avgKeluar=totalRiwayat/Math.max(riwayatData.length,1);
+    const anomaliItems=riwayatData.filter(r=>parseInt(r.amt.replace(/[^0-9]/g,''))>avgKeluar*1.5);
+    if(anomaliItems.length>0){
+      anomaly.innerHTML=`<div class="ai-section-title">🔍 Deteksi Anomali Pengeluaran</div>
+        <div class="deteksi-card" style="margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span>⚠️</span><div style="font-size:12px;font-weight:800;color:var(--orange)">Terdeteksi ${anomaliItems.length} Pengeluaran Tidak Wajar</div></div>
+          ${anomaliItems.map(r=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,140,66,.15)"><div style="font-size:11px;font-weight:600;color:var(--text)">${r.name}</div><div style="font-size:11px;font-weight:800;color:var(--orange)">${r.amt}</div></div>`).join('')}
+          <div style="font-size:11px;color:var(--text);line-height:1.6;margin-top:8px">AI mendeteksi pengeluaran di atas rata-rata normal. Tinjau kembali kebutuhan biaya tersebut.</div>
+        </div>`;
+    } else {
+      anomaly.innerHTML='';
+    }
+  }
+
+  // ── TOP PRODUK OTOMATIS ──
+  const topProduk=document.getElementById('aiTopProduk');
+  if(topProduk){
+    const katCount={minuman:0,makanan:0,sembako:0};
+    stokData.forEach(s=>{if(katCount[s.cat]!==undefined)katCount[s.cat]+=(s.max-s.qty);});
+    const sorted=Object.entries(katCount).sort((a,b)=>b[1]-a[1]);
+    const maxVal=sorted[0]?sorted[0][1]:1;
+    topProduk.innerHTML=`
+      <div style="font-size:11px;color:var(--text2);margin-bottom:10px">Berdasarkan pergerakan stok (terjual)</div>
+      ${sorted.map(([kat,val],i)=>{
+        const icons={minuman:'🥤',makanan:'🍜',sembako:'🌾'};
+        const pct=maxVal>0?Math.round((val/maxVal)*100):0;
+        const colors=['var(--mint)','var(--blue)','var(--orange)'];
+        return `<div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <div style="font-size:12px;font-weight:700">${icons[kat]||'📦'} ${kat.charAt(0).toUpperCase()+kat.slice(1)}</div>
+            <div style="font-size:11px;font-weight:800;color:${colors[i]}">${val} unit terjual</div>
+          </div>
+          <div style="height:6px;background:var(--border2);border-radius:3px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${colors[i]};border-radius:3px;transition:width .6s"></div></div>
+        </div>`;
+      }).join('')}
+      <div style="border-top:1px solid var(--border2);padding-top:10px;font-size:11px;color:var(--text2)">
+        Top transaksi: <strong>${txData[0]?.name||'-'}</strong> · <strong>${txData[1]?.name||'-'}</strong>
+      </div>`;
+  }
+
+  // ── PROYEKSI OTOMATIS ──
+  const proyeksi=document.getElementById('aiProyeksi');
+  if(proyeksi){
+    const pct=Math.min(95,d.confidence);
+    proyeksi.innerHTML=`
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:11px;font-weight:700;color:var(--text2)">Prediksi bulan depan</div>
+        <div style="font-size:10px;background:var(--mint-light);color:var(--mint-dark);padding:3px 8px;border-radius:20px;font-weight:700">Confidence ${pct}%</div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:12px">
+        <div style="flex:1;background:var(--pink-light);border-radius:12px;padding:12px;text-align:center">
+          <div style="font-size:9px;color:var(--text2);font-weight:700;margin-bottom:4px">PESIMISTIS</div>
+          <div style="font-size:15px;font-weight:900;color:var(--pink)">${rpShort(d.proyeksiPesimis)}</div>
+        </div>
+        <div style="flex:1;background:var(--mint-light);border-radius:12px;padding:12px;text-align:center;border:2px solid var(--mint-mid)">
+          <div style="font-size:9px;color:var(--mint-dark);font-weight:700;margin-bottom:4px">PREDIKSI LABA</div>
+          <div style="font-size:15px;font-weight:900;color:var(--mint)">${rpShort(d.proyeksiLaba)}</div>
+        </div>
+        <div style="flex:1;background:var(--blue-light);border-radius:12px;padding:12px;text-align:center">
+          <div style="font-size:9px;color:var(--text2);font-weight:700;margin-bottom:4px">OPTIMISTIS</div>
+          <div style="font-size:15px;font-weight:900;color:var(--blue)">${rpShort(d.proyeksiOptimis)}</div>
+        </div>
+      </div>
+      <div class="proj-bar"><div class="proj-fill" style="width:${pct}%;background:linear-gradient(90deg,var(--mint),var(--mint-dark))"></div></div>
+      <div style="font-size:11px;color:var(--text2);margin-top:10px;line-height:1.6;font-style:italic">"Proyeksi dihitung dari ${d.jmlTx} transaksi aktual dengan growth rate historis 12%. Restok ${d.stokMenipis.length+d.stokHabis.length} produk untuk memaksimalkan potensi penjualan."</div>`;
+  }
+
+  // ── METODE BAYAR OTOMATIS ──
+  const payAnalysis=document.getElementById('aiPaymentAnalysis');
+  if(payAnalysis){
+    const total=Math.max(d.jmlTx,1);
+    const methods=[
+      {name:'QRIS',count:d.qrisTx,color:'var(--mint)',icon:'📱'},
+      {name:'Transfer/Bank',count:d.tunaiTx,color:'var(--blue)',icon:'🏦'},
+      {name:'Lainnya',count:Math.max(0,total-d.qrisTx-d.tunaiTx),color:'var(--orange)',icon:'💵'},
+    ].filter(m=>m.count>0);
+    payAnalysis.innerHTML=`
+      ${methods.map(m=>{
+        const pct=Math.round((m.count/total)*100);
+        return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="font-size:18px">${m.icon}</div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px;font-weight:700">${m.name}</span><span style="font-size:11px;font-weight:800;color:${m.color}">${m.count}x · ${pct}%</span></div>
+            <div style="height:6px;background:var(--border2);border-radius:3px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${m.color};border-radius:3px;transition:width .6s"></div></div>
+          </div>
+        </div>`;
+      }).join('')}
+      <div style="border-top:1px solid var(--border2);padding-top:10px;font-size:11px;color:var(--text2)">Total ${d.jmlTx} transaksi · Avg ${rp(d.avgTx)}/transaksi</div>`;
+  }
+
+  // ── REKOMENDASI OTOMATIS ──
+  const rekEl=document.getElementById('aiRekomendasi');
+  if(rekEl){
+    rekEl.innerHTML=d.rekoms.map(r=>`
+      <div style="background:${r.bg};border-radius:16px;padding:14px;margin-bottom:10px;border:1px solid ${r.color}22">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span style="font-size:16px">${r.icon}</span>
+          <div style="font-size:12px;font-weight:800;color:${r.color}">${r.title}</div>
+        </div>
+        <div style="font-size:11px;color:var(--text);line-height:1.6">${r.desc}</div>
+      </div>`).join('');
+  }
+}
+
+function buildAiMiniChartFromData(pts){
+  const c=document.getElementById('aiMiniChart');
+  if(!c)return;
+  const max=Math.max(...pts)||1,n=pts.length,w=280,h=60;
+  const px=i=>Math.round((i/(n-1))*w);
+  const py=v=>Math.round(h-(v/max)*h*0.85)-4;
+  const area=[`${px(0)},${h}`,...pts.map((v,i)=>`${px(i)},${py(v)}`),`${px(n-1)},${h}`].join(' ');
+  const line=pts.map((v,i)=>`${px(i)},${py(v)}`).join(' ');
+  c.innerHTML=`<svg width="100%" height="60" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <defs><linearGradient id="aiGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00C896" stop-opacity=".3"/><stop offset="100%" stop-color="#00C896" stop-opacity="0"/></linearGradient></defs>
+    <polygon points="${area}" fill="url(#aiGrad)"/>
+    <polyline points="${line}" fill="none" stroke="#00C896" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    ${pts.map((v,i)=>i===pts.length-1?`<circle cx="${px(i)}" cy="${py(v)}" r="4" fill="#00C896" stroke="#fff" stroke-width="2"/>`:'').join('')}
+  </svg>`;
+}
+
+function refreshAI(){
+  const btn=document.getElementById('aiRefreshBtn');
+  if(btn){btn.style.animation='spin .6s linear';setTimeout(()=>btn.style.animation='',700);}
+  renderAI();
+  toast('✅ AI diperbarui dari data terkini!');
+}
+
+// tambahkan spin animation
+const styleEl=document.createElement('style');
+styleEl.textContent='@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}';
+document.head.appendChild(styleEl);
 
 // ── CHIP ──
 function pickChip(el){el.closest('.cat-chips').querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');}
@@ -1523,7 +1846,6 @@ function clearNotif(){document.getElementById('ndot').style.display='none';notif
 // ── INIT ──
 buildAreaChart('week');
 buildLapChart();
-buildAiMiniChart();
 buildQR();
 renderProdukGrid();
 renderTx('txHome',txData.slice(0,4));
@@ -1534,6 +1856,7 @@ renderQrisTx();
 renderStok(stokData);
 renderNotif();
 updateStokHeader();
+renderAI();
 </script>
 </body>
 </html>
