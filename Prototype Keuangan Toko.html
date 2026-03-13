@@ -582,12 +582,14 @@ body.tema-dark .menu-group{background:#1E293B!important}
   <div class="statusbar" id="statusBar" style="display:none">
     <span id="clockTime" style="font-weight:700">9:41</span>
     <div class="sb-logo">
-      <!-- LOGO SVG INLINE -->
+      <!-- LOGO SVG INLINE — Wallet + Lightning -->
       <div class="logo-mark">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <rect x="1" y="4" width="12" height="9" rx="2" fill="white" opacity=".9"/>
-          <rect x="3" y="2" width="8" height="3" rx="1.5" fill="white" opacity=".6"/>
-          <path d="M5 8.5L6.5 10L9 7" stroke="#1a9e7e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="0.5" y="4" width="13" height="9.5" rx="2.5" fill="white" opacity=".95"/>
+          <rect x="2.5" y="1.5" width="9" height="4" rx="1.5" fill="white" opacity=".6"/>
+          <rect x="9" y="7" width="3.5" height="3.5" rx="1" fill="#1a9e7e" opacity=".9"/>
+          <circle cx="10.75" cy="8.75" r="0.8" fill="white"/>
+          <path d="M5.5 6.5L4 9h2.2L4.8 11.5L7.5 8H5.4L6.5 6.5Z" fill="#1a9e7e" opacity=".9"/>
         </svg>
       </div>
     </div>
@@ -601,10 +603,17 @@ body.tema-dark .menu-group{background:#1E293B!important}
       <div class="login-page">
         <!-- Logo -->
         <div class="login-logo">
+          <!-- Wallet + Lightning logo matching uploaded image -->
           <svg width="44" height="44" viewBox="0 0 52 52" fill="none">
-            <rect x="4" y="14" width="44" height="32" rx="8" fill="white" opacity=".92"/>
-            <rect x="10" y="7" width="32" height="12" rx="5" fill="white" opacity=".65"/>
-            <path d="M18 31L22.5 36L34 25" stroke="#1a9e7e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Wallet body -->
+            <rect x="3" y="15" width="46" height="32" rx="9" fill="white" opacity=".95"/>
+            <!-- Wallet flap/top -->
+            <rect x="8" y="7" width="36" height="14" rx="6" fill="white" opacity=".65"/>
+            <!-- Card slot on right -->
+            <rect x="35" y="24" width="12" height="14" rx="3" fill="#1a9e7e" opacity=".25"/>
+            <circle cx="41" cy="31" r="3" fill="white" opacity=".8"/>
+            <!-- Lightning bolt center -->
+            <path d="M22 20L16 32h9L21 44L33 29H23.5L28 20Z" fill="#1a9e7e" opacity=".85"/>
           </svg>
         </div>
         <div class="login-title">Selamat Datang<br>di SIKTR</div>
@@ -1251,42 +1260,252 @@ body.tema-dark .menu-group{background:#1E293B!important}
     <div class="page" id="page-profil">
       <div class="prof-banner"></div>
       <div class="prof-card">
-        <div class="prof-av">PA</div>
-        <div class="prof-name">Toko Pak Albert</div>
-        <div class="prof-sub">Bandung, Jawa Barat · Berdiri sejak 2020</div>
+        <div class="prof-av" id="profAvatar">PA</div>
+        <div class="prof-name" id="profNama">Toko Pak Albert</div>
+        <div class="prof-sub" id="profSub">Bandung, Jawa Barat · Berdiri sejak 2020</div>
         <div class="prof-badges">
           <span class="prof-badge" style="background:var(--mint-light);color:var(--mint-dark)">✅ QRIS Terverifikasi</span>
           <span class="prof-badge" style="background:var(--yellow-light);color:#B8860B">⭐ Top UMKM</span>
           <span class="prof-badge" style="background:var(--blue-light);color:var(--blue)">🏆 4 Tahun Aktif</span>
         </div>
       </div>
-      <!-- Stats mini: hanya Transaksi, Produk Aktif, Laba Bulan Ini -->
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 16px 14px">
         <div class="stat-card"><div class="stat-val" style="color:var(--mint)">1.2k</div><div class="stat-lbl">Transaksi</div></div>
         <div class="stat-card"><div class="stat-val" style="color:var(--blue)">8</div><div class="stat-lbl">Produk Aktif</div></div>
         <div class="stat-card"><div class="stat-val" style="color:var(--mint)">20M</div><div class="stat-lbl">Laba Mar</div></div>
       </div>
       <div class="menu-group">
-        <div class="menu-item" onclick="toast('✏️ Edit profil toko')"><div class="mi-icon" style="background:var(--mint-light)">👤</div><div class="mi-label">Edit Profil Toko</div><div class="mi-arrow">›</div></div>
-        <div class="menu-item" onclick="toast('🔔 Pengaturan notifikasi')"><div class="mi-icon" style="background:var(--blue-light)">🔔</div><div class="mi-label">Notifikasi</div><span class="mi-badge" style="background:var(--pink-light);color:var(--pink)">3 Baru</span><div class="mi-arrow">›</div></div>
+        <div class="menu-item" onclick="openModal('editprofil')"><div class="mi-icon" style="background:var(--mint-light)">👤</div><div class="mi-label">Edit Profil Toko</div><div class="mi-arrow">›</div></div>
+        <div class="menu-item" onclick="nav('notif')"><div class="mi-icon" style="background:var(--blue-light)">🔔</div><div class="mi-label">Notifikasi</div><span class="mi-badge" style="background:var(--pink-light);color:var(--pink)" id="notifBadgeMenu">3 Baru</span><div class="mi-arrow">›</div></div>
         <div class="menu-item" onclick="nav('qris')"><div class="mi-icon" style="background:var(--mint-light)">📱</div><div class="mi-label">Pengaturan QRIS</div><div class="mi-arrow">›</div></div>
       </div>
       <div class="menu-group">
         <div class="menu-item" onclick="openTema()"><div class="mi-icon" style="background:var(--mint-light)">🎨</div><div class="mi-label">Tampilan & Tema</div><div id="temaCurrentBadge" class="mi-badge" style="background:var(--mint-light);color:var(--mint-dark)">Mint</div><div class="mi-arrow">›</div></div>
       </div>
       <div class="menu-group">
-        <div class="menu-item" onclick="toast('🔒 Keamanan & privasi')"><div class="mi-icon" style="background:var(--orange-light)">🔒</div><div class="mi-label">Keamanan & Privasi</div><div class="mi-arrow">›</div></div>
-        <div class="menu-item" onclick="toast('☁️ Backup data...')"><div class="mi-icon" style="background:var(--blue-light)">☁️</div><div class="mi-label">Backup Data</div><div class="mi-arrow">›</div></div>
-        <div class="menu-item" onclick="toast('📲 Bagikan ke rekan')"><div class="mi-icon" style="background:var(--purple-light)">📲</div><div class="mi-label">Referral & Bagikan</div><div class="mi-arrow">›</div></div>
+        <div class="menu-item" onclick="openModal('keamanan')"><div class="mi-icon" style="background:var(--orange-light)">🔒</div><div class="mi-label">Keamanan & Privasi</div><div class="mi-arrow">›</div></div>
+        <div class="menu-item" onclick="openModal('backup')"><div class="mi-icon" style="background:var(--blue-light)">☁️</div><div class="mi-label">Backup Data</div><span class="mi-badge" style="background:var(--mint-light);color:var(--mint-dark)">Auto</span><div class="mi-arrow">›</div></div>
+        <div class="menu-item" onclick="openModal('referral')"><div class="mi-icon" style="background:var(--purple-light)">📲</div><div class="mi-label">Referral & Bagikan</div><span class="mi-badge" style="background:var(--yellow-light);color:#B8860B">+Rp 50k</span><div class="mi-arrow">›</div></div>
       </div>
       <div class="menu-group">
-        <div class="menu-item" onclick="toast('❓ Pusat bantuan')"><div class="mi-icon" style="background:var(--yellow-light)">❓</div><div class="mi-label">Pusat Bantuan</div><div class="mi-arrow">›</div></div>
-        <div class="menu-item" onclick="toast('📋 Syarat & ketentuan')"><div class="mi-icon" style="background:var(--bg)">📋</div><div class="mi-label">Syarat & Ketentuan</div><div class="mi-arrow">›</div></div>
-        <div class="menu-item" onclick="toast('👋 Keluar dari akun...')"><div class="mi-icon" style="background:var(--pink-light)">🚪</div><div class="mi-label" style="color:var(--pink)">Keluar</div><div class="mi-arrow" style="color:var(--pink)">›</div></div>
+        <div class="menu-item" onclick="openModal('bantuan')"><div class="mi-icon" style="background:var(--yellow-light)">❓</div><div class="mi-label">Pusat Bantuan</div><div class="mi-arrow">›</div></div>
+        <div class="menu-item" onclick="openModal('syarat')"><div class="mi-icon" style="background:var(--bg)">📋</div><div class="mi-label">Syarat & Ketentuan</div><div class="mi-arrow">›</div></div>
+        <div class="menu-item" onclick="openModal('keluar')"><div class="mi-icon" style="background:var(--pink-light)">🚪</div><div class="mi-label" style="color:var(--pink)">Keluar</div><div class="mi-arrow" style="color:var(--pink)">›</div></div>
       </div>
-      <div style="text-align:center;padding:16px;font-size:11px;color:var(--text3)">SIKTR v3.0 · Made for UMKM Indonesia 🇮🇩</div>
+      <div style="text-align:center;padding:16px;font-size:11px;color:var(--text3)">SIKTR v7.0 · Made for UMKM Indonesia 🇮🇩</div>
       <div class="gap"></div>
     </div>
+
+  <!-- ══ MODAL EDIT PROFIL ══ -->
+  <div class="modal-overlay" id="modal-editprofil">
+    <div class="modal-sheet">
+      <div class="mhandle"></div>
+      <div class="m-title">✏️ Edit Profil Toko</div>
+      <div style="text-align:center;margin-bottom:18px">
+        <div id="editAvPreview" style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--mint),var(--mint-dark));display:flex;align-items:center;justify-content:justify-content:center;font-size:24px;font-weight:900;color:#fff;margin:0 auto 10px;cursor:pointer;border:3px solid var(--mint-mid);align-items:center;justify-content:center" onclick="toast('📸 Pilih foto profil...')">PA</div>
+        <div style="font-size:11px;color:var(--mint);font-weight:700;cursor:pointer" onclick="toast('📸 Upload foto...')">Ganti Foto Profil</div>
+      </div>
+      <div class="inp-grp">
+        <label class="inp-label">Nama Toko</label>
+        <input class="inp" type="text" id="editNamaToko" placeholder="Contoh: Toko Pak Albert" value="Toko Pak Albert">
+      </div>
+      <div class="inp-grp">
+        <label class="inp-label">Inisial Avatar (2 huruf)</label>
+        <input class="inp" type="text" id="editInisial" placeholder="PA" maxlength="2" value="PA" style="text-transform:uppercase" oninput="document.getElementById('editAvPreview').textContent=this.value.toUpperCase()">
+      </div>
+      <div class="inp-grp">
+        <label class="inp-label">Lokasi Toko</label>
+        <input class="inp" type="text" id="editLokasi" placeholder="Kota, Provinsi" value="Bandung, Jawa Barat">
+      </div>
+      <div class="inp-grp">
+        <label class="inp-label">Tahun Berdiri</label>
+        <input class="inp" type="number" id="editTahun" placeholder="2020" value="2020" inputmode="numeric">
+      </div>
+      <div class="inp-grp">
+        <label class="inp-label">Nomor WhatsApp</label>
+        <div class="inp-prefix">
+          <div class="inp-pre-label">+62</div>
+          <input class="inp-pre-input" type="tel" id="editWA" placeholder="812-xxxx-xxxx" inputmode="numeric">
+        </div>
+      </div>
+      <button onclick="simpanProfil()" style="width:100%;background:var(--mint);color:#fff;border:none;border-radius:14px;padding:15px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(0,200,150,.3)">💾 Simpan Profil</button>
+    </div>
+  </div>
+
+  <!-- ══ MODAL KEAMANAN ══ -->
+  <div class="modal-overlay" id="modal-keamanan">
+    <div class="modal-sheet">
+      <div class="mhandle"></div>
+      <div class="m-title">🔒 Keamanan & Privasi</div>
+      <div class="toggle-row" onclick="toggleSecurity('pin')">
+        <div class="toggle-label">🔐 PIN Masuk Aplikasi</div>
+        <div class="toggle-switch" id="pinToggle"></div>
+      </div>
+      <div class="toggle-row" onclick="toggleSecurity('bio')">
+        <div class="toggle-label">👆 Biometrik / Sidik Jari</div>
+        <div class="toggle-switch on" id="bioToggle"></div>
+      </div>
+      <div class="toggle-row" onclick="toggleSecurity('notifTx')">
+        <div class="toggle-label">🔔 Notifikasi Setiap Transaksi</div>
+        <div class="toggle-switch on" id="notifTxToggle"></div>
+      </div>
+      <div style="font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin:14px 0 10px">Aksi</div>
+      <div class="modal-actions">
+        <button class="modal-action-btn" onclick="toast('🔑 Buka pengaturan PIN...')">
+          <div class="mab-icon" style="background:var(--orange-light)">🔑</div>
+          <div><div class="mab-title">Ganti PIN</div><div class="mab-sub">Ubah PIN keamanan aplikasi</div></div>
+        </button>
+        <button class="modal-action-btn" onclick="toast('📋 Membuka log aktivitas...')">
+          <div class="mab-icon" style="background:var(--blue-light)">📋</div>
+          <div><div class="mab-title">Log Aktivitas</div><div class="mab-sub">Riwayat login & akses aplikasi</div></div>
+        </button>
+        <button class="modal-action-btn" onclick="toast('🗑 Fitur ini memerlukan konfirmasi PIN...')">
+          <div class="mab-icon" style="background:var(--pink-light)">🗑</div>
+          <div><div class="mab-title" style="color:var(--pink)">Hapus Semua Data</div><div class="mab-sub">Reset aplikasi ke awal</div></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL BACKUP ══ -->
+  <div class="modal-overlay" id="modal-backup">
+    <div class="modal-sheet">
+      <div class="mhandle"></div>
+      <div class="m-title">☁️ Backup Data</div>
+      <div style="background:var(--mint-light);border-radius:16px;padding:16px;margin-bottom:16px;border:1px solid var(--mint-mid)">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:28px">✅</span>
+          <div>
+            <div style="font-size:13px;font-weight:800;color:var(--mint-dark)">Backup Terakhir Berhasil</div>
+            <div style="font-size:11px;color:var(--text2);margin-top:2px">13 Mar 2026 · 08:00 WIB · Google Drive</div>
+          </div>
+        </div>
+      </div>
+      <div class="toggle-row" onclick="toggleSecurity('autobak')">
+        <div class="toggle-label">🔄 Backup Otomatis Harian</div>
+        <div class="toggle-switch on" id="autobakToggle"></div>
+      </div>
+      <div style="font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin:14px 0 10px">Backup Manual</div>
+      <div class="modal-actions">
+        <button class="modal-action-btn" onclick="simulasiBackup()">
+          <div class="mab-icon" style="background:var(--blue-light)">☁️</div>
+          <div><div class="mab-title">Backup ke Google Drive</div><div class="mab-sub">Simpan semua data ke cloud</div></div>
+        </button>
+        <button class="modal-action-btn" onclick="toast('📂 Mengunduh file ekspor...')">
+          <div class="mab-icon" style="background:var(--orange-light)">📂</div>
+          <div><div class="mab-title">Ekspor ke File Lokal</div><div class="mab-sub">Simpan sebagai file .xlsx</div></div>
+        </button>
+        <button class="modal-action-btn" onclick="toast('📥 Pilih file backup untuk restore...')">
+          <div class="mab-icon" style="background:var(--purple-light)">📥</div>
+          <div><div class="mab-title">Restore Data</div><div class="mab-sub">Pulihkan dari backup sebelumnya</div></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL REFERRAL ══ -->
+  <div class="modal-overlay" id="modal-referral">
+    <div class="modal-sheet">
+      <div class="mhandle"></div>
+      <div class="m-title">📲 Referral & Bagikan</div>
+      <div style="background:linear-gradient(135deg,var(--mint),var(--mint-dark));border-radius:18px;padding:20px;margin-bottom:16px;text-align:center;color:#fff">
+        <div style="font-size:11px;opacity:.8;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Kode Referral Kamu</div>
+        <div style="font-size:32px;font-weight:900;letter-spacing:4px">SIKTR42</div>
+        <div style="font-size:11px;opacity:.8;margin-top:6px">Bagikan & dapatkan bonus Rp 50.000 per teman</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+        <div style="background:var(--yellow-light);border-radius:14px;padding:14px;text-align:center">
+          <div style="font-size:22px;margin-bottom:4px">🎁</div>
+          <div style="font-size:16px;font-weight:900;color:#B8860B">Rp 50.000</div>
+          <div style="font-size:10px;color:var(--text2);font-weight:700">Per referral</div>
+        </div>
+        <div style="background:var(--mint-light);border-radius:14px;padding:14px;text-align:center">
+          <div style="font-size:22px;margin-bottom:4px">👥</div>
+          <div style="font-size:16px;font-weight:900;color:var(--mint-dark)">3 Teman</div>
+          <div style="font-size:10px;color:var(--text2);font-weight:700">Sudah bergabung</div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-action-btn" onclick="toast('📱 Membuka WhatsApp...')">
+          <div class="mab-icon" style="background:#E8F5E9">📱</div>
+          <div><div class="mab-title">Bagikan via WhatsApp</div><div class="mab-sub">Kirim link ke kontak kamu</div></div>
+        </button>
+        <button class="modal-action-btn" onclick="toast('✅ Link disalin! siktr.app/ref/SIKTR42')">
+          <div class="mab-icon" style="background:var(--blue-light)">🔗</div>
+          <div><div class="mab-title">Salin Link Undangan</div><div class="mab-sub">siktr.app/ref/SIKTR42</div></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL BANTUAN ══ -->
+  <div class="modal-overlay" id="modal-bantuan">
+    <div class="modal-sheet">
+      <div class="mhandle"></div>
+      <div class="m-title">❓ Pusat Bantuan</div>
+      <div class="modal-actions">
+        <button class="modal-action-btn" onclick="toast('💬 Membuka live chat...')">
+          <div class="mab-icon" style="background:var(--mint-light)">💬</div>
+          <div><div class="mab-title">Live Chat Support</div><div class="mab-sub">Respon cepat dalam 5 menit</div></div>
+        </button>
+        <button class="modal-action-btn" onclick="toast('📖 Membuka panduan pengguna...')">
+          <div class="mab-icon" style="background:var(--blue-light)">📖</div>
+          <div><div class="mab-title">Panduan Penggunaan</div><div class="mab-sub">Tutorial lengkap fitur SIKTR</div></div>
+        </button>
+        <button class="modal-action-btn" onclick="toast('🎥 Membuka video tutorial...')">
+          <div class="mab-icon" style="background:var(--pink-light)">🎥</div>
+          <div><div class="mab-title">Video Tutorial</div><div class="mab-sub">Pelajari fitur lewat video</div></div>
+        </button>
+        <button class="modal-action-btn" onclick="toast('📧 support@siktr.app')">
+          <div class="mab-icon" style="background:var(--yellow-light)">📧</div>
+          <div><div class="mab-title">Hubungi via Email</div><div class="mab-sub">support@siktr.app</div></div>
+        </button>
+      </div>
+      <div style="margin-top:16px">
+        <div style="font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">FAQ</div>
+        <div id="faqList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL SYARAT ══ -->
+  <div class="modal-overlay" id="modal-syarat">
+    <div class="modal-sheet" style="max-height:85vh;overflow-y:auto">
+      <div class="mhandle"></div>
+      <div class="m-title">📋 Syarat & Ketentuan</div>
+      <div style="font-size:11px;color:var(--text2);line-height:2">
+        <div style="font-weight:800;color:var(--text);margin-bottom:4px">1. Penggunaan Aplikasi</div>
+        Aplikasi SIKTR diperuntukkan bagi pelaku UMKM dan toko retail di Indonesia. Pengguna bertanggung jawab penuh atas data yang dimasukkan.
+        <div style="font-weight:800;color:var(--text);margin:12px 0 4px">2. Keamanan Data</div>
+        Semua data transaksi dan keuangan disimpan terenkripsi. SIKTR tidak membagikan data pengguna kepada pihak ketiga tanpa izin.
+        <div style="font-weight:800;color:var(--text);margin:12px 0 4px">3. Fitur Premium</div>
+        Beberapa fitur lanjutan tersedia melalui paket berlangganan. Pengguna dapat upgrade kapan saja melalui menu Profil.
+        <div style="font-weight:800;color:var(--text);margin:12px 0 4px">4. Kebijakan Privasi</div>
+        Data pribadi dan bisnis pengguna dilindungi sesuai UU Perlindungan Data Pribadi (UU PDP) Indonesia.
+        <div style="font-weight:800;color:var(--text);margin:12px 0 4px">5. Tanggung Jawab</div>
+        SIKTR tidak bertanggung jawab atas kerugian akibat kesalahan input data oleh pengguna.
+        <div style="margin-top:14px;padding:12px;background:var(--bg);border-radius:12px;font-size:10px;color:var(--text3)">
+          Versi: 7.0 · Berlaku: 1 Jan 2026 · © 2026 BTR Esport · Adm. Bisnis
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL KONFIRMASI KELUAR ══ -->
+  <div class="modal-overlay" id="modal-keluar">
+    <div class="modal-sheet">
+      <div class="mhandle"></div>
+      <div style="text-align:center;padding:10px 0 20px">
+        <div style="font-size:52px;margin-bottom:12px">👋</div>
+        <div style="font-size:18px;font-weight:900;color:var(--text);margin-bottom:8px">Yakin ingin keluar?</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.7">Data kamu tersimpan aman di cloud.<br>Kamu bisa masuk kembali kapan saja.</div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button onclick="closeModal('keluar')" style="flex:1;background:var(--bg);border:1.5px solid var(--border2);border-radius:14px;padding:14px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;color:var(--text)">Batal</button>
+        <button onclick="doLogout()" style="flex:1;background:var(--pink);color:#fff;border:none;border-radius:14px;padding:14px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(255,107,138,.3)">🚪 Keluar</button>
+      </div>
+    </div>
+  </div>
 
 
   <!-- TEMA MODAL -->
@@ -2630,8 +2849,82 @@ function pickChip(el){el.closest('.cat-chips').querySelectorAll('.chip').forEach
 
 // ── MODAL ──
 function openFab(){document.getElementById('modal-fab').classList.add('open');}
+function openModal(id){document.getElementById('modal-'+id).classList.add('open');}
 function closeModal(id){document.getElementById('modal-'+id).classList.remove('open');}
 document.querySelectorAll('.modal-overlay').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
+
+// ── SIMPAN PROFIL ──
+function simpanProfil(){
+  const nama=document.getElementById('editNamaToko').value.trim()||'Toko Pak Albert';
+  const inisial=document.getElementById('editInisial').value.trim().toUpperCase()||'PA';
+  const lokasi=document.getElementById('editLokasi').value.trim()||'Bandung, Jawa Barat';
+  const tahun=document.getElementById('editTahun').value||'2020';
+  // Update profil page
+  const elNama=document.getElementById('profNama'); if(elNama)elNama.textContent=nama;
+  const elSub=document.getElementById('profSub'); if(elSub)elSub.textContent=lokasi+' · Berdiri sejak '+tahun;
+  const elAv=document.getElementById('profAvatar'); if(elAv)elAv.textContent=inisial;
+  // Update header & QRIS
+  const thName=document.querySelector('.th-name'); if(thName)thName.textContent=nama;
+  const qrLabel=document.querySelector('.qr-label'); if(qrLabel)qrLabel.textContent=nama;
+  const userAv=document.querySelector('.user-avatar'); if(userAv)userAv.textContent=inisial;
+  closeModal('editprofil');
+  toast('✅ Profil berhasil disimpan!');
+}
+
+// ── TOGGLE SECURITY ──
+function toggleSecurity(id){
+  const toggleMap={pin:'pinToggle',bio:'bioToggle',notifTx:'notifTxToggle',autobak:'autobakToggle'};
+  const el=document.getElementById(toggleMap[id]);
+  if(!el)return;
+  el.classList.toggle('on');
+  const isOn=el.classList.contains('on');
+  const labels={pin:'PIN',bio:'Biometrik',notifTx:'Notifikasi Transaksi',autobak:'Backup Otomatis'};
+  toast((isOn?'✅ ':'⚠️ ')+(labels[id]||id)+' '+(isOn?'diaktifkan':'dinonaktifkan'));
+}
+
+// ── SIMULASI BACKUP ──
+function simulasiBackup(){
+  toast('☁️ Backup sedang berjalan...');
+  setTimeout(()=>toast('✅ Backup berhasil! Data tersimpan ke Google Drive.'),2000);
+}
+
+// ── LOGOUT ──
+function doLogout(){
+  closeModal('keluar');
+  toast('👋 Sampai jumpa!');
+  setTimeout(()=>{
+    document.getElementById('bottomNav').style.display='none';
+    document.getElementById('statusBar').style.display='none';
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page-onboard').classList.add('active');
+  },800);
+}
+
+// ── FAQ ──
+const faqItems=[
+  {q:'Bagaimana cara tambah produk baru?',a:'Buka menu Kelola Stok → tombol ➕ di pojok kanan atas.'},
+  {q:'Apakah data saya aman?',a:'Ya, semua data dienkripsi dan di-backup otomatis setiap hari.'},
+  {q:'Cara cetak laporan keuangan?',a:'Buka Laporan → pilih periode → tombol PDF atau XLS di atas.'},
+  {q:'QRIS saya tidak aktif?',a:'Pastikan verifikasi akun sudah selesai di pengaturan QRIS.'},
+];
+function renderFaq(){
+  const c=document.getElementById('faqList');
+  if(!c)return;
+  c.innerHTML=faqItems.map((f,i)=>`
+    <div style="border:1.5px solid var(--border2);border-radius:14px;margin-bottom:8px;overflow:hidden;cursor:pointer" onclick="toggleFaq(${i})">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;font-size:12px;font-weight:700;color:var(--text)">
+        <span>${f.q}</span><span id="faqArr${i}" style="transition:transform .2s;font-size:14px">›</span>
+      </div>
+      <div id="faqBody${i}" style="display:none;padding:0 14px 12px;font-size:11px;color:var(--text2);line-height:1.7">${f.a}</div>
+    </div>`).join('');
+}
+function toggleFaq(i){
+  const body=document.getElementById('faqBody'+i);
+  const arr=document.getElementById('faqArr'+i);
+  const open=body.style.display==='block';
+  body.style.display=open?'none':'block';
+  arr.style.transform=open?'':'rotate(90deg)';
+}
 
 // ── TOAST ──
 function toast(msg){const t=document.getElementById('toastEl');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
@@ -2655,6 +2948,7 @@ renderNotif();
 updateStokHeader();
 renderAI();
 renderRiwayatMasuk();
+renderFaq();
 </script>
 </body>
 </html>
